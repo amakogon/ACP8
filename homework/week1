@@ -1,0 +1,12 @@
+1) Finish binary tree implementation
+  1.1 add (recursion and loop)
+  1.2 remove (current version contains bugs)
+  1.3 find depth of tree
+  1.4* iterator
+  1.5* toString
+  1.6* balance tree (look AVL tree)
+
+2) HashMap - finish all unimplemented methods
+
+Don't forget to write tests for your code;
+Good luck!
