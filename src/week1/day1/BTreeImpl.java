@@ -1,5 +1,7 @@
 package week1.day1;
 
+import java.util.Iterator;
+
 public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
 
   private Node<E> root;
@@ -8,7 +10,7 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
   @Override
   public boolean add(E elem) {
     if (isEmpty()) {
-      root = new Node<E>(elem, null, null, null);
+      root = Node.newNodeWithoutChilds(elem, null);
       size++;
       return true;
     }
@@ -19,14 +21,14 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
         if (currentNode.hasLeftChild()) {
           currentNode = currentNode.leftChild;
         } else {
-          currentNode.leftChild = new Node<E>(elem, null, null, currentNode);
+          currentNode.leftChild = Node.newNodeWithoutChilds(elem, currentNode);
           break;
         }
       } else {
         if (currentNode.hasRightChild()) {
           currentNode = currentNode.rightChild;
         } else {
-          currentNode.rightChild = new Node<E>(elem, null, null, currentNode);
+          currentNode.rightChild = Node.newNodeWithoutChilds(elem, currentNode);
           break;
         }
       }
@@ -37,20 +39,51 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
 
   @Override
   public boolean remove(E elem) {
-
-    Node<E> target = node(elem);
-    if (target == null) {
+    Node<E> targetNode = node(elem);
+    if (targetNode == null) {
       return false;
     }
 
-    Node<E> targetLeftChild = target.leftChild;
-    Node<E> targetRightChild = target.rightChild;
+    if (targetNode.hasLeftChild() && targetNode.hasRightChild()) {
+      Node<E> max = max(targetNode.leftChild);
+      targetNode.elem = max.elem;
 
-    if(!target.hasLeftChild() && !target.hasRightChild()){
-
+      if (!max.hasLeftChild()) {
+        unlinkNode(max);
+      } else {
+        max.leftChild.parent = max.parent;
+        max.parent.rightChild = max.leftChild;
+      }
+    } else {
+      unlinkNode(targetNode);
     }
+    size--;
+    return true;
+  }
 
-    return false;
+  private Node<E> max(Node<E> node) {
+    Node<E> max = node;
+    while (max.rightChild != null) {
+      max = max.rightChild;
+    }
+    return max;
+  }
+
+  private void unlinkNode(Node<E> node) {
+    Node<E> parentNode = node.parent;
+    if (!node.hasLeftChild() && !node.hasRightChild()) {
+      if (parentNode.leftChild == node) {
+        parentNode.leftChild = null;
+      } else {
+        parentNode.rightChild = null;
+      }
+    } else if (!node.hasRightChild()) {
+      parentNode.leftChild = node.leftChild;
+      node.leftChild.parent = parentNode;
+    } else if (!node.hasLeftChild()) {
+      parentNode.rightChild = node.rightChild;
+      node.rightChild.parent = parentNode;
+    }
   }
 
   @Override
@@ -68,11 +101,21 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
     return size() == 0;
   }
 
+  @Override
+  public E max() {
+    return isEmpty() ? null : max(root).elem;
+  }
+
+  @Override
+  public E min() {
+    return null;
+  }
+
   private Node<E> node(E elem) {
-    Node<E> result = null;
     if (isEmpty()) {
-      return result;
+      return null;
     }
+    Node<E> result = null;
     for (Node<E> current = root; current != null; ) {
       if (elem.compareTo(current.elem) < 0) {
         current = current.leftChild;
@@ -84,6 +127,11 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
       }
     }
     return result;
+  }
+
+  @Override
+  public Iterator<E> iterator() {
+    return null;
   }
 
   private static class Node<E> {
@@ -109,6 +157,14 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
 
     boolean hasParent() {
       return parent != null;
+    }
+
+    static <E> Node<E> newNode(E elem, Node<E> right, Node<E> left, Node<E> parent) {
+      return new Node<>(elem, right, left, parent);
+    }
+
+    static <E> Node<E> newNodeWithoutChilds(E elem, Node<E> parent) {
+      return newNode(elem, null, null, parent);
     }
   }
 

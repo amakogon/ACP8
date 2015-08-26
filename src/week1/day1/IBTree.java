@@ -1,6 +1,6 @@
 package week1.day1;
 
-public interface IBTree<E> {
+public interface IBTree<E> extends Iterable<E>{
 
   boolean add(E elem);
 
@@ -11,6 +11,10 @@ public interface IBTree<E> {
   int size();
 
   boolean isEmpty();
+
+  E max();
+
+  E min();
 
 
 }
