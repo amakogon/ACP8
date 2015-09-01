@@ -1,7 +1,7 @@
 package week2.drinks;
 
 public enum PriceList {
-  PRICE_LIST;
+  PRICES;
 
   private double milkPrice;
   private double coffeePrice;
@@ -12,6 +12,7 @@ public enum PriceList {
 
   private void setup() {
 //    TODO: read prices from config file
+//    getClass().getClassLoader().getResource("prices").getFile();
   }
 
   public double getMilkPrice() {
