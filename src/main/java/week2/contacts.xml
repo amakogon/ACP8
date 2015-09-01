@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contactList>
+  <contact id="213">
+    <name>Oleg</name>
+    <age>-290</age>
+    <address>
+      <city>Kiev</city>
+    </address>
+  </contact>
+
+  <contact id="123"/>
+</contactList>
