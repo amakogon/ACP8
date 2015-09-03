@@ -1,6 +1,6 @@
 package week1.day1.tree;
 
-public interface IBTree<E> {
+public interface IBTree<E>{
 
     boolean add(E element);
 

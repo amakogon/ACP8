@@ -1,12 +1,10 @@
 package week1.day1.tree;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
-
 import java.util.ArrayDeque;
-import java.util.Iterator;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.Objects;
 
-public class BTreeImpl<E extends Comparable<E>> implements IBTree<E>, Iterable<E> {
+public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
 
     int size;
     Node<E> root;
@@ -200,45 +198,127 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E>, Iterable<E
     public void print() {
 
         Node<E> currentNode = root;
-        int elements = 0;
-        ArrayDeque<Node<E>> arrayDeque = new ArrayDeque<>();
-        arrayDeque.add(root);
+        int treeSize = size();
+        ArrayList<Node<E>> firstArrayList = new ArrayList<>();
+        ArrayList<Node<E>> secondArrayList = new ArrayList<>();
+        ArrayList<Object> thirdArrayList = new ArrayList<>();
 
-        while (!arrayDeque.isEmpty()) {
-            elements++;
-            currentNode = arrayDeque.poll();
-            System.out.println("\t" + currentNode.element);
-            for (int i = 0; i <arrayDeque.size() ; i++) {
+        firstArrayList.add(currentNode);
+        treeSize--;
+        thirdArrayList.addAll(firstArrayList);
+        thirdArrayList.add("Splitter");
+        int stages = 1;
+        try {
+            while (treeSize!=0) {
+                for (int i = 0; i <firstArrayList.size() ; i++) {
+                    if (firstArrayList.get(i).leftChild != null) {
+                        secondArrayList.add(firstArrayList.get(i).leftChild);
+                        treeSize--;
+                    } else secondArrayList.add(null);
+                    if (firstArrayList.get(i).rightChild != null) {
+                        secondArrayList.add(firstArrayList.get(i).rightChild);
+                        treeSize--;
+                    }else secondArrayList.add(null);
+                }
+                thirdArrayList.addAll(secondArrayList);
+                stages++;
+                thirdArrayList.add("Splitter");
+                firstArrayList.clear();
+                firstArrayList.addAll(secondArrayList);
+                secondArrayList.clear();
+            }
+        }catch (NullPointerException e){}
 
-                if (currentNode.leftChild != null) {
-                    arrayDeque.add(currentNode.leftChild);
-                }
-                if (currentNode.rightChild != null) {
-                    arrayDeque.add(currentNode.rightChild);
-                }
+
+        String tabs="";
+        for(int i=0; i<=stages;i++){
+            tabs=tabs+"\t";
+        }
+
+        for (int i = 0; i <thirdArrayList.size() ; i++) {
+            if (i==0) System.out.print("\t\t");
+            if (thirdArrayList.get(i)==null){ System.out.print(tabs.substring(0,stages)+tabs.substring(0,stages));}
+            else if (!thirdArrayList.get(i).equals("Splitter")){
+                Node<E> node = (Node<E>)thirdArrayList.get(i);
+                System.out.print(tabs.substring(0,stages)+node.element+tabs.substring(0,stages));}
+            else {System.out.println();
+                stages--;
             }
 
         }
+        /*System.out.println("STAGES = " +stages);*/
+
+
+
+
+       /* ArrayDeque<Node<E>> tempArrayDeque = new ArrayDeque<>();
+        ArrayDeque<Node<E>> finalArrayDeque = new ArrayDeque<>();
+        tempArrayDeque.add(currentNode);
+        finalArrayDeque.add(currentNode);
+        while (true){
+            finalArrayDeque.peek();
+
+        }
+        while (!tempArrayDeque.isEmpty()) {
+            currentNode = tempArrayDeque.poll();
+            System.out.println("\t" + currentNode.element);
+            for (int i = 0; i < tempArrayDeque.size() ; i++) {
+
+                if (currentNode.leftChild != null) {
+                    tempArrayDeque.add(currentNode.leftChild);
+                }
+                if (currentNode.rightChild != null) {
+                    tempArrayDeque.add(currentNode.rightChild);
+                }
+            }
+
+        }*/
+
     }
-
-
-    //Iterator
+/*
     @Override
     public Iterator<E> iterator() {
-        /*ArrayQueue<Node<E>> arrayQueue = new ArrayQueue<>(size);
-        arrayQueue.add(root);
-        int i=0;
-        w
-        *//*Iterator<Node<E>> iterator = arrayQueue.iterator();
-        while (true){
-
-        }*//*
-*/
-
-
-        return null;
+        return new Itr<>();
     }
 
+
+    private class Itr<E> implements Iterator<E>{
+        ArrayDeque<Node<E>> iteratorDeque = getIneratorDeque();
+
+        @Override
+        public boolean hasNext() {
+            return !iteratorDeque.isEmpty();
+        }
+
+       @Override
+       public E next() {
+           return (E)(iteratorDeque.poll().element);
+       }
+
+       private ArrayDeque<Node<E>> getIneratorDeque(){
+           Node<E> currentNode = (Node<E>) root;
+            ArrayDeque<Node<E>> tempArrayDeque = new ArrayDeque<>();
+            ArrayDeque<Node<E>> finalArrayDeque = new ArrayDeque<>();
+            tempArrayDeque.add(currentNode);
+
+            while (!tempArrayDeque.isEmpty()) {
+                currentNode = tempArrayDeque.poll();
+                finalArrayDeque.add(currentNode);
+                for (int i = 0; i < tempArrayDeque.size() ; i++) {
+                    if (currentNode.leftChild != null) {
+                        tempArrayDeque.add(currentNode.leftChild);
+                    }
+                    if (currentNode.rightChild != null) {
+                        tempArrayDeque.add(currentNode.rightChild);
+                    }
+                }
+            }
+            return finalArrayDeque;
+        }
+
+
+    }
+    */
 
     private static class Node<E> {
         E element;
