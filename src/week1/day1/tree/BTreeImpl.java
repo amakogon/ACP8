@@ -1,8 +1,7 @@
 package week1.day1.tree;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Iterator;
 
 public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
 
@@ -10,7 +9,6 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
     Node<E> root;
 
     @Override
-    //OK
     public boolean add(E element) {
         if (isEmpty()) {
             root = createNodeNoChilds(element, null); //Creating root
@@ -42,7 +40,7 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
     @Override
     public boolean remove(E element) {
         Node<E> targetNode = findNode(element);
-
+        if (targetNode == null) return false;
         //if no lements in the tree
         if (size() == 0) return false;
 
@@ -103,22 +101,92 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
     }
 
     @Override
-    //OK
     public boolean contains(E element) {
         //System.out.println(findNode(element));
         return findNode(element) != null;
     }
 
     @Override
-    //OK
     public int size() {
         return size;
     }
 
     @Override
-    //OK
     public boolean isEmpty() {
         return size() == 0;
+    }
+    //Todo Create array to out;
+    @Override
+    public void print() {
+
+        int weight = getStages();
+        int height = (int)Math.pow(2,weight)+1;
+        System.out.println(weight);
+        System.out.println(height);
+        Node<E>[][] nodeArray = new Node[weight][height];
+
+        for (int i = 0; i <weight ; i++) {
+            for (int j = 0; j < height; j++) {
+
+                System.out.print(nodeArray[i][j]+" ");
+            }
+            System.out.println();
+        }
+
+        ArrayList<ArrayList<Node<E>>> totalArrayList = getTreeStagesArrayList();
+        for (ArrayList<Node<E>> arratList : totalArrayList) {
+            for (Node<E> node : arratList) {
+                if (node == null) System.out.print("N");
+                else System.out.print(node.element + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    private ArrayList<ArrayList<Node<E>>> getTreeStagesArrayList(){
+        Node<E> currentNode = root;
+        int count = size();
+
+        ArrayList<ArrayList<Node<E>>> totalArrayList = new ArrayList<>();
+        ArrayList<Node<E>> arrayList1 = new ArrayList<>();
+        ArrayList<Node<E>> arrayList2 = new ArrayList<>();
+
+        arrayList1.add(currentNode);
+        count--;
+        totalArrayList.add(new ArrayList<Node<E>>(arrayList1));
+
+        while (count != 0) {
+            for (int i = 0; i < arrayList1.size(); i++) {
+                if (arrayList1.get(i).leftChild == null) {
+                    arrayList2.add(null);
+                } else {
+                    arrayList2.add(arrayList1.get(i).leftChild);
+                    count--;
+                }
+
+                if (arrayList1.get(i).rightChild == null) {
+                    arrayList2.add(null);
+                } else {
+                    arrayList2.add(arrayList1.get(i).rightChild);
+                    count--;
+                }
+            }
+
+
+            totalArrayList.add(new ArrayList<Node<E>>(arrayList2));
+            arrayList1.clear();
+            arrayList1.addAll(arrayList2);
+            arrayList2.clear();
+        }
+        return totalArrayList;
+    }
+
+
+    private void recPrint(Node<E> currentNode) {
+        if (currentNode == null) return;
+        System.out.println(currentNode.element);
+        recPrint(currentNode.leftChild);
+        recPrint(currentNode.rightChild);
     }
 
 
@@ -130,13 +198,13 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
     //Creating node - full
     private Node<E> createNode(E element, Node<E> parent, Node<E> leftChild, Node<E> rightChild) {
         size++;
-        return new Node<E>(element, parent, leftChild, rightChild);
+        return new Node<>(element, parent, leftChild, rightChild);
     }
 
     //Node search (by element)
     private Node<E> findNode(E element) {
         Node<E> currentNode = root;
-        Node<E> result = null;
+        Node<E> result;
         if (isEmpty()) {
             return null;
         }
@@ -170,9 +238,6 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
         return result;
     }
 
-    private Node<E> goLeft(Node<E> node) {
-        return node.leftChild != null ? node.leftChild : null;
-    }
 
     private Node<E> goRight(Node<E> node) {
         return node.rightChild != null ? node.rightChild : null;
@@ -186,140 +251,84 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
         return currentNode;
     }
 
-    public Node<E> goMaxLeft(Node<E> node) {
-        Node<E> currentNode = node;
-        while (goLeft(currentNode) != null) {
-            currentNode = goLeft(currentNode);
-        }
-        return currentNode;
-    }
 
+    @Override
+    //CountStages
 
-    public void print() {
-
+    public int getStages() {
         Node<E> currentNode = root;
         int treeSize = size();
         ArrayList<Node<E>> firstArrayList = new ArrayList<>();
         ArrayList<Node<E>> secondArrayList = new ArrayList<>();
-        ArrayList<Object> thirdArrayList = new ArrayList<>();
-
         firstArrayList.add(currentNode);
         treeSize--;
-        thirdArrayList.addAll(firstArrayList);
-        thirdArrayList.add("Splitter");
+        if (root == null) {
+            return 0;
+        }
         int stages = 1;
-        try {
-            while (treeSize!=0) {
-                for (int i = 0; i <firstArrayList.size() ; i++) {
-                    if (firstArrayList.get(i).leftChild != null) {
-                        secondArrayList.add(firstArrayList.get(i).leftChild);
-                        treeSize--;
-                    } else secondArrayList.add(null);
-                    if (firstArrayList.get(i).rightChild != null) {
-                        secondArrayList.add(firstArrayList.get(i).rightChild);
-                        treeSize--;
-                    }else secondArrayList.add(null);
-                }
-                thirdArrayList.addAll(secondArrayList);
-                stages++;
-                thirdArrayList.add("Splitter");
-                firstArrayList.clear();
-                firstArrayList.addAll(secondArrayList);
-                secondArrayList.clear();
+        while (treeSize != 0) {
+            //TODO: NullPointerException
+            for (Node<E> aFirstArrayList : firstArrayList) {
+                if (aFirstArrayList.leftChild != null) {
+                    secondArrayList.add(aFirstArrayList.leftChild);
+                    treeSize--;
+                } else secondArrayList.add(null);
+                if (aFirstArrayList.rightChild != null) {
+                    secondArrayList.add(aFirstArrayList.rightChild);
+                    treeSize--;
+                } else secondArrayList.add(null);
             }
-        }catch (NullPointerException e){}
-
-
-        String tabs="";
-        for(int i=0; i<=stages;i++){
-            tabs=tabs+"\t";
+            stages++;
+            firstArrayList.clear();
+            firstArrayList.addAll(secondArrayList);
+            secondArrayList.clear();
         }
-
-        for (int i = 0; i <thirdArrayList.size() ; i++) {
-            if (i==0) System.out.print("\t\t");
-            if (thirdArrayList.get(i)==null){ System.out.print(tabs.substring(0,stages)+tabs.substring(0,stages));}
-            else if (!thirdArrayList.get(i).equals("Splitter")){
-                Node<E> node = (Node<E>)thirdArrayList.get(i);
-                System.out.print(tabs.substring(0,stages)+node.element+tabs.substring(0,stages));}
-            else {System.out.println();
-                stages--;
-            }
-
-        }
-        /*System.out.println("STAGES = " +stages);*/
-
-
-
-
-       /* ArrayDeque<Node<E>> tempArrayDeque = new ArrayDeque<>();
-        ArrayDeque<Node<E>> finalArrayDeque = new ArrayDeque<>();
-        tempArrayDeque.add(currentNode);
-        finalArrayDeque.add(currentNode);
-        while (true){
-            finalArrayDeque.peek();
-
-        }
-        while (!tempArrayDeque.isEmpty()) {
-            currentNode = tempArrayDeque.poll();
-            System.out.println("\t" + currentNode.element);
-            for (int i = 0; i < tempArrayDeque.size() ; i++) {
-
-                if (currentNode.leftChild != null) {
-                    tempArrayDeque.add(currentNode.leftChild);
-                }
-                if (currentNode.rightChild != null) {
-                    tempArrayDeque.add(currentNode.rightChild);
-                }
-            }
-
-        }*/
-
+        return stages;
     }
-/*
+
     @Override
+    //Iterator
     public Iterator<E> iterator() {
-        return new Itr<>();
+        return new Itr();
     }
 
+    //Iner class for Iterator creation
+    private class Itr implements Iterator<E> {
+        private Node[] nodeList = new Node[size()];
+        private int i = 0;
+        private int position = 0;
+        private int cursor = 0;
 
-    private class Itr<E> implements Iterator<E>{
-        ArrayDeque<Node<E>> iteratorDeque = getIneratorDeque();
+        public Itr() {
+            getNodeList(root);
+        }
 
         @Override
+        //HasNext?
         public boolean hasNext() {
-            return !iteratorDeque.isEmpty();
+            return (cursor < size());
         }
 
-       @Override
-       public E next() {
-           return (E)(iteratorDeque.poll().element);
-       }
-
-       private ArrayDeque<Node<E>> getIneratorDeque(){
-           Node<E> currentNode = (Node<E>) root;
-            ArrayDeque<Node<E>> tempArrayDeque = new ArrayDeque<>();
-            ArrayDeque<Node<E>> finalArrayDeque = new ArrayDeque<>();
-            tempArrayDeque.add(currentNode);
-
-            while (!tempArrayDeque.isEmpty()) {
-                currentNode = tempArrayDeque.poll();
-                finalArrayDeque.add(currentNode);
-                for (int i = 0; i < tempArrayDeque.size() ; i++) {
-                    if (currentNode.leftChild != null) {
-                        tempArrayDeque.add(currentNode.leftChild);
-                    }
-                    if (currentNode.rightChild != null) {
-                        tempArrayDeque.add(currentNode.rightChild);
-                    }
-                }
-            }
-            return finalArrayDeque;
+        @Override
+        //Next tree element
+        public E next() {
+            Node node = nodeList[position];
+            position++;
+            cursor++;
+            return (E) node.element;
         }
 
-
+        //inner method to create nodeList for Iterator
+        private void getNodeList(Node<E> currentNode) {
+            if (currentNode == null) return;
+            nodeList[i] = currentNode;
+            i++;
+            getNodeList(currentNode.leftChild);
+            getNodeList(currentNode.rightChild);
+        }
     }
-    */
 
+    //Node
     private static class Node<E> {
         E element;
         Node<E> parent;
@@ -333,9 +342,6 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
             this.rightChild = rightChild;
         }
 
-        boolean hasParent() {
-            return parent != null;
-        }
 
         boolean hasLeftChild() {
             return leftChild != null;
@@ -349,22 +355,6 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
             return (rightChild == null) && (leftChild == null);
         }
 
-        void printNode() {
-            try {
 
-                System.out.println("ELEMENT = " + this.element);
-                System.out.println("PARENT = " + this.parent.element);
-                System.out.println("LEFT CHILD = " + this.leftChild.element);
-                System.out.println("RIGHT CHILD = " + this.rightChild.element);
-            } catch (NullPointerException e) {
-            }
-        }
-
-        public void nullNode() {
-            this.element = null;
-            this.parent = null;
-            this.leftChild = null;
-            this.rightChild = null;
-        }
     }
 }
