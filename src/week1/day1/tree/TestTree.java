@@ -15,16 +15,18 @@ public class TestTree {
         tree.add(4);
         tree.add(8);
         tree.add(11);
-        tree.add(11);
 
+        System.out.println("Tree:\n");
         tree.print();
 
-      /*  System.out.println(tree.contains(1));
-        Iterator iterator = tree.iterator();
+        System.out.println("\nTree contain\'s 1?" + (tree.contains(1) ? " Yes!" : " No!"));
 
+        System.out.println("\nIterator bypass:\n");
+        Iterator iterator = tree.iterator();
         while (iterator.hasNext()) {
-            System.out.println(iterator.next());
+            System.out.print(iterator.next() + " ");
         }
-        System.out.println("Stages = "+tree.getStages());*/
+
+        System.out.println("\n\nTree stages = " + tree.getStages());
     }
 }

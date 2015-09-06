@@ -115,11 +115,32 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
     public boolean isEmpty() {
         return size() == 0;
     }
-    //Todo Create array to out;
+
+    private String[] getOutTabArray(){
+        int stages = getStages();
+        int[] tabArray = new int[stages];
+        String[] stringTabArray = new String[stages];
+        int j=0;
+        for (int i = stages; i >0 ; i--) {
+            tabArray[j] = (int)(Math.pow(2,i)/2);
+            j++;
+        }
+
+        for (int i = 0; i <stages ; i++) {
+            String s="";
+            for (int k = 0; k <tabArray[i] ; k++) {
+                s = s+"\t";
+            }
+            stringTabArray[i]=s;
+        }
+        return stringTabArray;
+
+    }
+
     @Override
     public void print() {
-
-        int weight = getStages();
+        String outStringTabArray[]=getOutTabArray();
+        /*int weight = getStages();
         int height = (int)Math.pow(2,weight)+1;
         System.out.println(weight);
         System.out.println(height);
@@ -131,16 +152,22 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
                 System.out.print(nodeArray[i][j]+" ");
             }
             System.out.println();
-        }
+        }*/
+
+
 
         ArrayList<ArrayList<Node<E>>> totalArrayList = getTreeStagesArrayList();
-        for (ArrayList<Node<E>> arratList : totalArrayList) {
-            for (Node<E> node : arratList) {
-                if (node == null) System.out.print("N");
-                else System.out.print(node.element + " ");
-            }
+        for (int i = 0; i <totalArrayList.size() ; i++) {
+            for (int j = 0; j <totalArrayList.get(i).size() ; j++) {
+               try {
+                   System.out.print(outStringTabArray[i] + totalArrayList.get(i).get(j).element + outStringTabArray[i]);
+               }catch (NullPointerException e){
+                       System.out.print(outStringTabArray[i] + " " + outStringTabArray[i]);
+               }
+               }
             System.out.println();
         }
+
     }
 
     private ArrayList<ArrayList<Node<E>>> getTreeStagesArrayList(){
@@ -157,6 +184,8 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
 
         while (count != 0) {
             for (int i = 0; i < arrayList1.size(); i++) {
+                //Todo:NullPointerException 2
+                if(arrayList1.get(i)==null) continue;
                 if (arrayList1.get(i).leftChild == null) {
                     arrayList2.add(null);
                 } else {
@@ -268,7 +297,9 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
         int stages = 1;
         while (treeSize != 0) {
             //TODO: NullPointerException
-            for (Node<E> aFirstArrayList : firstArrayList) {
+            for (int i = 0; i < firstArrayList.size(); i++) {
+                Node<E> aFirstArrayList = firstArrayList.get(i);
+                if(aFirstArrayList==null) continue;
                 if (aFirstArrayList.leftChild != null) {
                     secondArrayList.add(aFirstArrayList.leftChild);
                     treeSize--;
