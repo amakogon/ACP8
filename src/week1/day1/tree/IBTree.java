@@ -16,5 +16,8 @@ public interface IBTree<E> extends Iterable<E> {
 
     void print();
 
+    void minRecurce();
+
+
 
 }

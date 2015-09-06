@@ -157,3 +157,25 @@
                             }
 
                         }
+
+
+
+
+
+
+
+                        //////////////////STG ARRAY TO OUTPUT
+
+                                /*int weight = getStages();
+                                int height = (int)Math.pow(2,weight)+1;
+                                System.out.println(weight);
+                                System.out.println(height);
+                                Node<E>[][] nodeArray = new Node[weight][height];
+
+                                for (int i = 0; i <weight ; i++) {
+                                    for (int j = 0; j < height; j++) {
+
+                                        System.out.print(nodeArray[i][j]+" ");
+                                    }
+                                    System.out.println();
+                                }*/

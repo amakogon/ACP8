@@ -36,6 +36,11 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
         return true;
     }
 
+    private Node<E> mixRecurce(Node<E> currentNode) {
+        if (currentNode.leftChild == null) return currentNode;
+        return mixRecurce(currentNode.leftChild);
+
+    }
 
     @Override
     public boolean remove(E element) {
@@ -92,10 +97,20 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
         }
         //if the target has 2 childs
         if (targetNode.hasLeftChild() && targetNode.hasRightChild()) {
-            Node<E> finalChild = goMaxRight(targetNode.leftChild);
-            targetNode.element = finalChild.element;
-            finalChild.parent.rightChild = null;
-            size--;
+            if (!targetNode.leftChild.hasRightChild()) {
+                Node<E> finalNode = targetNode.leftChild;
+                targetNode.element = finalNode.element;
+                targetNode.leftChild = finalNode.leftChild;
+                size--;
+
+            } else {
+                Node<E> finalChild = goMaxRight(targetNode.leftChild);
+                targetNode.element = finalChild.element;
+                finalChild.element = null;
+                finalChild.parent.rightChild = null;
+                size--;
+            }
+
         }
         return true;
     }
@@ -116,61 +131,54 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
         return size() == 0;
     }
 
-    private String[] getOutTabArray(){
+    //Generate array with splitters to print method
+    private String[] getOutTabArray() {
         int stages = getStages();
         int[] tabArray = new int[stages];
         String[] stringTabArray = new String[stages];
-        int j=0;
-        for (int i = stages; i >0 ; i--) {
-            tabArray[j] = (int)(Math.pow(2,i)/2);
+        int j = 0;
+        for (int i = stages; i > 0; i--) {
+            tabArray[j] = (int) (Math.pow(2, i) / 2);
             j++;
         }
 
-        for (int i = 0; i <stages ; i++) {
-            String s="";
-            for (int k = 0; k <tabArray[i] ; k++) {
-                s = s+"\t";
+        for (int i = 0; i < stages; i++) {
+            String s = "";
+            for (int k = 0; k < tabArray[i]; k++) {
+                s = s + "\t";
             }
-            stringTabArray[i]=s;
+            stringTabArray[i] = s;
         }
         return stringTabArray;
 
     }
 
     @Override
+    //Print method
     public void print() {
-        String outStringTabArray[]=getOutTabArray();
-        /*int weight = getStages();
-        int height = (int)Math.pow(2,weight)+1;
-        System.out.println(weight);
-        System.out.println(height);
-        Node<E>[][] nodeArray = new Node[weight][height];
-
-        for (int i = 0; i <weight ; i++) {
-            for (int j = 0; j < height; j++) {
-
-                System.out.print(nodeArray[i][j]+" ");
-            }
-            System.out.println();
-        }*/
-
-
+        String outStringTabArray[] = getOutTabArray();
 
         ArrayList<ArrayList<Node<E>>> totalArrayList = getTreeStagesArrayList();
-        for (int i = 0; i <totalArrayList.size() ; i++) {
-            for (int j = 0; j <totalArrayList.get(i).size() ; j++) {
-               try {
-                   System.out.print(outStringTabArray[i] + totalArrayList.get(i).get(j).element + outStringTabArray[i]);
-               }catch (NullPointerException e){
-                       System.out.print(outStringTabArray[i] + " " + outStringTabArray[i]);
-               }
-               }
+        for (int i = 0; i < totalArrayList.size(); i++) {
+            for (int j = 0; j < totalArrayList.get(i).size(); j++) {
+                try {
+                    System.out.print(outStringTabArray[i] + totalArrayList.get(i).get(j).element + outStringTabArray[i]);
+                } catch (NullPointerException e) {
+                    System.out.print(outStringTabArray[i] + " " + outStringTabArray[i]);
+                }
+            }
             System.out.println();
         }
 
     }
 
-    private ArrayList<ArrayList<Node<E>>> getTreeStagesArrayList(){
+    @Override
+    public void minRecurce() {
+        System.out.println("\nMinimal element, finded by recursion = " + mixRecurce(root).element + ".\n");
+    }
+
+    //Convert tree to staged ArrayList
+    private ArrayList<ArrayList<Node<E>>> getTreeStagesArrayList() {
         Node<E> currentNode = root;
         int count = size();
 
@@ -183,24 +191,23 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
         totalArrayList.add(new ArrayList<Node<E>>(arrayList1));
 
         while (count != 0) {
-            for (int i = 0; i < arrayList1.size(); i++) {
-                //Todo:NullPointerException 2
-                if(arrayList1.get(i)==null) continue;
-                if (arrayList1.get(i).leftChild == null) {
+            for (Node<E> anArrayList1 : arrayList1) {
+
+                if (anArrayList1 == null) continue;
+                if (anArrayList1.leftChild == null) {
                     arrayList2.add(null);
                 } else {
-                    arrayList2.add(arrayList1.get(i).leftChild);
+                    arrayList2.add(anArrayList1.leftChild);
                     count--;
                 }
 
-                if (arrayList1.get(i).rightChild == null) {
+                if (anArrayList1.rightChild == null) {
                     arrayList2.add(null);
                 } else {
-                    arrayList2.add(arrayList1.get(i).rightChild);
+                    arrayList2.add(anArrayList1.rightChild);
                     count--;
                 }
             }
-
 
             totalArrayList.add(new ArrayList<Node<E>>(arrayList2));
             arrayList1.clear();
@@ -210,7 +217,7 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
         return totalArrayList;
     }
 
-
+    //Recursion print method (w/o iterator simple print)
     private void recPrint(Node<E> currentNode) {
         if (currentNode == null) return;
         System.out.println(currentNode.element);
@@ -267,11 +274,12 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
         return result;
     }
 
-
+    //Mowe to Node.RightChild
     private Node<E> goRight(Node<E> node) {
         return node.rightChild != null ? node.rightChild : null;
     }
 
+    //Search maximum element
     private Node<E> goMaxRight(Node<E> node) {
         Node<E> currentNode = node;
         while (goRight(currentNode) != null) {
@@ -282,39 +290,9 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
 
 
     @Override
-    //CountStages
-
+    //Count Stages
     public int getStages() {
-        Node<E> currentNode = root;
-        int treeSize = size();
-        ArrayList<Node<E>> firstArrayList = new ArrayList<>();
-        ArrayList<Node<E>> secondArrayList = new ArrayList<>();
-        firstArrayList.add(currentNode);
-        treeSize--;
-        if (root == null) {
-            return 0;
-        }
-        int stages = 1;
-        while (treeSize != 0) {
-            //TODO: NullPointerException
-            for (int i = 0; i < firstArrayList.size(); i++) {
-                Node<E> aFirstArrayList = firstArrayList.get(i);
-                if(aFirstArrayList==null) continue;
-                if (aFirstArrayList.leftChild != null) {
-                    secondArrayList.add(aFirstArrayList.leftChild);
-                    treeSize--;
-                } else secondArrayList.add(null);
-                if (aFirstArrayList.rightChild != null) {
-                    secondArrayList.add(aFirstArrayList.rightChild);
-                    treeSize--;
-                } else secondArrayList.add(null);
-            }
-            stages++;
-            firstArrayList.clear();
-            firstArrayList.addAll(secondArrayList);
-            secondArrayList.clear();
-        }
-        return stages;
+        return getTreeStagesArrayList().size();
     }
 
     @Override
@@ -323,7 +301,7 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
         return new Itr();
     }
 
-    //Iner class for Iterator creation
+    //Inner class for Iterator creation
     private class Itr implements Iterator<E> {
         private Node[] nodeList = new Node[size()];
         private int i = 0;
