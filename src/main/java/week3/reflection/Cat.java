@@ -5,10 +5,10 @@ import com.google.common.base.MoreObjects;
 public class Cat {
     @Data(info = "Klikuha")
     private String name;
-    @Data
+    @Data(info = "gender")
     private Sex sex;
     private int age;
-    @Data
+    @Data(info = "color")
     private String color;
     private String favoriteToy;
 
