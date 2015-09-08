@@ -1,6 +1,7 @@
 package week2.drinks.toppings;
 
 import week2.drinks.Drink;
+import week2.drinks.PriceList;
 import week2.drinks.ToppingDecorator;
 
 public class Milk extends ToppingDecorator {
@@ -11,6 +12,6 @@ public class Milk extends ToppingDecorator {
 
   @Override
   public double cost() {
-    return 0.4 + drink.cost();
+    return PriceList.PRICES.getPrice("milk") + drink.cost();
   }
 }

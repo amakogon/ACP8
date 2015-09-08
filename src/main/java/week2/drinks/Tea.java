@@ -2,12 +2,14 @@ package week2.drinks;
 
 public class Tea extends Drink {
 
-  public Tea() {
-    super("Ceilon tea");
-  }
+    public static final String DESCRIPTION = "Ceilon tea";
 
-  @Override
-  public double cost() {
-    return 1.5;
-  }
+    public Tea() {
+        super(DESCRIPTION);
+    }
+
+    @Override
+    public double cost() {
+        return PriceList.PRICES.getPrice(DESCRIPTION);
+    }
 }

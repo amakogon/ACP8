@@ -1,33 +1,44 @@
 package week2.drinks;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 public enum PriceList {
-  PRICES;
+    PRICES;
 
-  private double milkPrice;
-  private double coffeePrice;
+    private Map<String, Double> priceMap;
 
-  private PriceList() {
-    setup();
-  }
+    PriceList() {
+        priceMap = new HashMap<>();
+        setup();
+    }
 
-  private void setup() {
-//    TODO: read prices from config file
-//    getClass().getClassLoader().getResource("prices").getFile();
-  }
+    private void setup() {
+        String file = getClass().getClassLoader().getResource("prices").getFile();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String currLine;
+            while ((currLine = reader.readLine()) != null) {
+                String[] pair = currLine.split("=");
+                String description = pair[0].trim();
+                double price = Double.parseDouble(pair[1].trim());
+                priceMap.put(description, price);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-  public double getMilkPrice() {
-    return milkPrice;
-  }
-
-  public void setMilkPrice(double milkPrice) {
-    this.milkPrice = milkPrice;
-  }
-
-  public double getCoffeePrice() {
-    return coffeePrice;
-  }
-
-  public void setCoffeePrice(double coffeePrice) {
-    this.coffeePrice = coffeePrice;
-  }
+    public double getPrice(String description) {
+        Double price = priceMap.get(description);
+        if(price == null) {
+            throw new PriceNotFoundException(description);
+        }
+        return price;
+    }
 }
