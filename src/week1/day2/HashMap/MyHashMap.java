@@ -46,6 +46,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     @Override
+    //TODO: rewrte this
     public boolean containsKey(Object key) {
         Objects.requireNonNull(key);
         if (isEmpty()) {
@@ -61,6 +62,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     @Override
+    //TODO: rewrte this
     public boolean containsValue(Object value) {
         Objects.requireNonNull(value);
         if (size() == 0) return false;
@@ -82,6 +84,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     @Override
+    //TODO: rewrite
     public V get(Object key) {
         Objects.requireNonNull(key);
         if (isEmpty()) {
@@ -97,17 +100,59 @@ public class MyHashMap<K, V> implements Map<K, V> {
         int hash = key.hashCode();
         int index = hash % buckets.length;
 
-        for (Bucket<K, V> bucket = buckets[index]; bucket != null; bucket = bucket.next) {
-            if (bucket.hash == hash && bucket.key.equals(key)) {
-                bucket.value = value;
+        if (buckets[index] == null) {
+            buckets[index] = new Bucket<>(hash, key, value, null);
+            size++;
+
+        } else if (!buckets[index].hasNext()) {
+            if (buckets[index].hash == hash && buckets[index].key.equals(key)) {
+                buckets[index].setValue(value);
                 return value;
+            } else {
+                buckets[index].next = new Bucket<>(hash, key, value, null);
+                size++;
             }
+
+        } else if (buckets[index].hasNext()) {
+            Bucket<K, V> currentBucket = buckets[index];
+            while (currentBucket.next != null) {
+                if (currentBucket.hash == hash && currentBucket.key.equals(key)) {
+                    currentBucket.setValue(value);
+                    return value;
+                }
+                currentBucket = currentBucket.next;
+            }
+            if (currentBucket.lastBucket().hash == hash && currentBucket.lastBucket().key.equals(key)) {
+                currentBucket.lastBucket().setValue(value);
+            } else {
+                currentBucket.lastBucket().next = new Bucket<>(hash, key, value, null);
+                size++;
+            }
+
         }
 
-        addBucket(key, value, hash, index);
         return value;
     }
 
+    public void print() {
+        for (Bucket<K, V> bucket : buckets) {
+            if (bucket == null) {
+                System.out.print("blanc");
+            } else if (!bucket.hasNext()) {
+                System.out.println("\t|----" + bucket.getKey() + " " + bucket.getValue() + "|");
+            } else if (bucket.hasNext()) {
+                System.out.print("\t|----" + bucket.getKey() + " " + bucket.getValue() + "|");
+                Bucket<K, V> currentBucket = bucket;
+                while (currentBucket.next != null) {
+
+                    currentBucket = currentBucket.next;
+                    System.out.print("\t|----" + currentBucket.getKey() + " " + currentBucket.getValue() + "|");
+                }
+            }
+            System.out.println();
+        }
+    }
+    //TODO: rewrte this
     private void addBucket(K key, V value, int hash, int index) {
 //    TODO: check loadFactor
         Bucket<K, V> bucket = Bucket.newBucket(hash, key, value, buckets[index]);
@@ -130,7 +175,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     @Override
-    //Todo: test this with equals hashcode test class
+    //TODO: rewrte this
     public V remove(Object key) {
         Objects.requireNonNull(key);
         if (containsKey(key)) {
@@ -160,6 +205,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     @Override
+    //TODO: rewrte this
     public void putAll(Map<? extends K, ? extends V> m) {
         Set<? extends K> keySet = m.keySet();
         Object[] keys = keySet.toArray();
@@ -169,42 +215,30 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     @Override
+    //TODO: rewrte this
     public void clear() {
         Arrays.fill(buckets, null);
         size = 0;
     }
 
     @Override
+    //TODO: rewrte this
     public Set<K> keySet() {
         return Collections.emptySet();
     }
 
     @Override
+    //TODO: rewrte this
     public Collection<V> values() {
         return Collections.emptyList();
     }
 
     @Override
+    //TODO: rewrte this
     public Set<Entry<K, V>> entrySet() {
         return Collections.emptySet();
     }
 
-    public void print() {
-        for (Bucket<K, V> bucket : buckets) {
-            if (bucket == null) {
-                System.out.println("blanc");
-            } else if (!bucket.hasNext()) {
-                System.out.println(bucket.getKey() + " " + bucket.getValue());
-            } else {
-                Bucket<K, V> currentBucket = bucket;
-                while (currentBucket.hasNext()) {
-                    System.out.println("\t" + currentBucket.getKey() + " " + currentBucket.getValue());
-                    currentBucket = currentBucket.nextBucket();
-                }
-            }
-
-        }
-    }
 
     private static class Bucket<K, V> implements Map.Entry<K, V> {
 

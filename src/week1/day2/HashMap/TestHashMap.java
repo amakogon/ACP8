@@ -9,33 +9,24 @@ package week1.day2.HashMap;
 public class TestHashMap {
     public static void main(String[] args) {
         MyHashMap<EqualsHashCode, String> map = new MyHashMap<>(5);
-        map.put(new EqualsHashCode(-2), "-2");
+        map.put(new EqualsHashCode(-3), "minus three");
+        map.put(new EqualsHashCode(-2), "minus two");
         map.put(new EqualsHashCode(-1), "minus one");
+        map.put(new EqualsHashCode(0), "zero");
         map.put(new EqualsHashCode(1), "one");
-        map.put(new EqualsHashCode(2), "two");
+        EqualsHashCode e = new EqualsHashCode(2);
+        map.put(e, "two");
+        map.put(e, "double");
+        map.put(e, "II");
         map.put(new EqualsHashCode(3), "three");
         map.put(new EqualsHashCode(4), "four");
+        map.print();
+        map.remove(e);
+        System.out.println("-----------------------------------");
         map.print();
 
 
 
-
-
-
-      /*  MyHashMap<Integer, String> map = new MyHashMap<>(5);
-
-        map.put(1, "6");
-        map.put(12, "16");
-        map.remove(12);
-        System.out.println(map.get(1));
-        System.out.println(map.get(12));
-        System.out.println(map.containsKey(2));
-        System.out.println(map.containsValue("15"));
-        System.out.println("-1 = " + new EqualsHashCode(-1).hashCode());
-        System.out.println("0 = " +new EqualsHashCode(0).hashCode());
-        System.out.println("1 = " +new EqualsHashCode(1).hashCode());
-        System.out.println("2 = " +new EqualsHashCode(2).hashCode());
-*/
 
 
     }
@@ -50,6 +41,17 @@ public class TestHashMap {
         @Override
         public int hashCode() {
             return this.key>=0?103:0;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            EqualsHashCode that = (EqualsHashCode) o;
+
+            return key == that.key;
+
         }
 
         @Override
