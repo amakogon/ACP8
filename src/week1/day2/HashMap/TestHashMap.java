@@ -26,8 +26,9 @@ public class TestHashMap {
         map.put(new EqualsHashCode(4), "four");
 
         map.print();
-        map.clear();
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        map.remove(new EqualsHashCode(2));
+        System.out.println(map.size());
         map.print();
 
 

@@ -101,16 +101,60 @@ public class MyHashMap<K, V> implements Map<K, V> {
         return value;
     }
 
+     /*//TODO: rewrte this
+    private void addBucket(K key, V value, int hash, int index) {
+//    TODO: check loadFactor
+        Bucket<K, V> bucket = Bucket.newBucket(hash, key, value, buckets[index]);
+        buckets[index] = bucket;
+        size++;
+    }*/
+
     @Override
-    //TODO: rewrte this
     public V remove(Object key) {
         Objects.requireNonNull(key);
         if (!containsKey(key)) return null;
         int index = key.hashCode() % buckets.length;
         if (buckets[index] == null) {
             return null;
-        }else {
-            if(buckets)
+        } else {
+            if (buckets[index].next!=null) {
+
+                Bucket<K, V> currentBucket = buckets[index];
+
+                while (currentBucket.hasNext()) {
+                    if (currentBucket.key.equals(key)) {
+                        if (currentBucket.next == null) {
+                            currentBucket = null;
+                            size--;
+                        } else {
+                            buckets[index] = currentBucket.next;
+                        }
+                    }
+                    if (currentBucket.next.key.equals(key)) {
+                        Bucket<K, V> nextNextBucket = currentBucket.nextBucket().nextBucket();
+                        if (nextNextBucket == null) {
+                            currentBucket.next = null;
+                            size--;
+                            return null;
+
+                        } else {
+                            currentBucket.next = null;
+                            size--;
+                            currentBucket.next = nextNextBucket;
+                            return null;
+                        }
+
+                    }
+                    currentBucket = currentBucket.nextBucket();
+                }
+
+            } else {
+                if (buckets[index].key.equals(key)) {
+                    buckets[index] = null;
+                    size--;
+                    return null;
+                }
+            }
         }
         return null;
     }
@@ -134,13 +178,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
         }
     }
 
-    /*//TODO: rewrte this
-    private void addBucket(K key, V value, int hash, int index) {
-//    TODO: check loadFactor
-        Bucket<K, V> bucket = Bucket.newBucket(hash, key, value, buckets[index]);
-        buckets[index] = bucket;
-        size++;
-    }*/
+
     private Bucket<K, V> getBucket(Object key) {
         if (size == 0) {
             return null;
@@ -248,6 +286,10 @@ public class MyHashMap<K, V> implements Map<K, V> {
 
         @Override
         public K getKey() {
+            return key;
+        }
+
+        public K setKey(K key){
             return key;
         }
 
