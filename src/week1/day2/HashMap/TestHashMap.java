@@ -1,5 +1,9 @@
 package week1.day2.HashMap;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  *_|\_/|,,_____,~~`
  *_(.".)~~     )`~}} Created by Juff on 08.09.2015.
@@ -20,11 +24,11 @@ public class TestHashMap {
         map.put(e, "II");
         map.put(new EqualsHashCode(3), "three");
         map.put(new EqualsHashCode(4), "four");
-        map.print();
-        map.remove(e);
-        System.out.println("-----------------------------------");
-        map.print();
 
+        map.print();
+        map.clear();
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        map.print();
 
 
 
