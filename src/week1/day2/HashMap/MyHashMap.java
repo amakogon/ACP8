@@ -82,6 +82,42 @@ public class MyHashMap<K, V> implements Map<K, V> {
 
         } else if (buckets[index].hasNext()) {
             Bucket<K, V> currentBucket = buckets[index];
+
+            for(Bucket<K, V> bucket = buckets[index]; bucket.next!=null; bucket=bucket.next){
+                if (bucket.hash == hash && bucket.key.equals(key)) {
+                    bucket.setValue(value);
+                    return value;
+                }
+            }
+            if(buckets[index].lastBucket().hash==hash&&currentBucket.lastBucket().key.equals(key)){
+                buckets[index].lastBucket().setValue(value);
+                return value;
+            } else {
+                buckets[index].lastBucket().next = new Bucket<>(hash, key, value, null);
+                size++;
+            }
+        }
+
+        return value;
+       /* Objects.requireNonNull(key);
+        int hash = key.hashCode();
+        int index = hash % buckets.length;
+
+        if (buckets[index] == null) {
+            buckets[index] = new Bucket<>(hash, key, value, null);
+            size++;
+
+        } else if (!buckets[index].hasNext()) {
+            if (buckets[index].hash == hash && buckets[index].key.equals(key)) {
+                buckets[index].setValue(value);
+                return value;
+            } else {
+                buckets[index].next = new Bucket<>(hash, key, value, null);
+                size++;
+            }
+
+        } else if (buckets[index].hasNext()) {
+            Bucket<K, V> currentBucket = buckets[index];
             while (currentBucket.next != null) {
                 if (currentBucket.hash == hash && currentBucket.key.equals(key)) {
                     currentBucket.setValue(value);
@@ -98,7 +134,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
 
         }
 
-        return value;
+        return value;*/
     }
 
      /*//TODO: rewrte this
