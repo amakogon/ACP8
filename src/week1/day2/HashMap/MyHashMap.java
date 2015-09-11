@@ -68,7 +68,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
         int index = hash % buckets.length;
 
         if (buckets[index] == null) {
-            buckets[index] = new Bucket<>(hash, key, value, null);
+            buckets[index] = createLastBucket(key, value, hash);
             size++;
 
         } else if (!buckets[index].hasNext()) {
@@ -76,7 +76,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
                 buckets[index].setValue(value);
                 return value;
             } else {
-                buckets[index].next = new Bucket<>(hash, key, value, null);
+                buckets[index].next = createLastBucket(key, value, hash);
                 size++;
             }
         } else if (buckets[index].hasNext()) {
@@ -92,11 +92,15 @@ public class MyHashMap<K, V> implements Map<K, V> {
                 buckets[index].lastBucket().setValue(value);
                 return value;
             } else {
-                buckets[index].lastBucket().next = new Bucket<>(hash, key, value, null);
+                buckets[index].lastBucket().next = createLastBucket(key, value, hash);
                 size++;
             }
         }
         return value;
+    }
+
+    private Bucket<K, V> createLastBucket(K key, V value, int hash) {
+        return new Bucket<>(hash, key, value, null);
     }
 
 
