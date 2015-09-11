@@ -1,10 +1,6 @@
 package week1.day2.HashMap;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-/**
+/*
  *_|\_/|,,_____,~~`
  *_(.".)~~     )`~}} Created by Juff on 08.09.2015.
  *__\o/\ /---~\\ ~}}
@@ -24,21 +20,16 @@ public class TestHashMap {
         map.put(e, "II");
         map.put(new EqualsHashCode(3), "three");
         map.put(new EqualsHashCode(4), "four");
-
         map.print();
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        System.out.println();
         map.remove(new EqualsHashCode(2));
         System.out.println(map.size());
         map.print();
-
-
-
-
     }
 
     public static class EqualsHashCode{
         int key;
-
         public EqualsHashCode(int key) {
             this.key = key;
         }
