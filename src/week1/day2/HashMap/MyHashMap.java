@@ -32,7 +32,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
 
     @Override
     public int size() {
-        return size;
+        return entrySet().size();
     }
 
     @Override
@@ -50,7 +50,6 @@ public class MyHashMap<K, V> implements Map<K, V> {
         return values().contains(value);
     }
 
-
     @Override
     public V get(Object key) {
         Objects.requireNonNull(key);
@@ -63,12 +62,15 @@ public class MyHashMap<K, V> implements Map<K, V> {
 
     @Override
     public V put(K key, V value) {
+        if(size()/buckets.length>loadFactor){
+            resize();
+        }
         Objects.requireNonNull(key);
         int hash = key.hashCode();
         int index = hash % buckets.length;
 
         if (buckets[index] == null) {
-            buckets[index] = createLastBucket(key, value, hash);
+            buckets[index] = new Bucket<>(hash, key, value, null);
             size++;
 
         } else if (!buckets[index].hasNext()) {
@@ -76,33 +78,40 @@ public class MyHashMap<K, V> implements Map<K, V> {
                 buckets[index].setValue(value);
                 return value;
             } else {
-                buckets[index].next = createLastBucket(key, value, hash);
+                buckets[index].next = new Bucket<>(hash, key, value, null);
                 size++;
             }
+
         } else if (buckets[index].hasNext()) {
             Bucket<K, V> currentBucket = buckets[index];
-
-            for (Bucket<K, V> bucket = buckets[index]; bucket.next != null; bucket = bucket.next) {
-                if (bucket.hash == hash && bucket.key.equals(key)) {
-                    bucket.setValue(value);
+            while (currentBucket.next != null) {
+                if (currentBucket.hash == hash && currentBucket.key.equals(key)) {
+                    currentBucket.setValue(value);
                     return value;
                 }
+                currentBucket = currentBucket.next;
             }
-            if (buckets[index].lastBucket().hash == hash && currentBucket.lastBucket().key.equals(key)) {
-                buckets[index].lastBucket().setValue(value);
-                return value;
+            if (currentBucket.lastBucket().hash == hash && currentBucket.lastBucket().key.equals(key)) {
+                currentBucket.lastBucket().setValue(value);
             } else {
-                buckets[index].lastBucket().next = createLastBucket(key, value, hash);
+                currentBucket.lastBucket().next = new Bucket<>(hash, key, value, null);
                 size++;
             }
+
         }
         return value;
     }
 
-    private Bucket<K, V> createLastBucket(K key, V value, int hash) {
-        return new Bucket<>(hash, key, value, null);
+    public void resize(){
+        Set<Entry<K, V>> entrySet = new HashSet<>();
+        entrySet=this.entrySet();
+        int newSize = size()*2;
+        buckets=null;
+        buckets=new Bucket[newSize];
+        for(Entry<K, V> entry:entrySet){
+            put(entry.getKey(), entry.getValue());
+        }
     }
-
 
     @Override
     public V remove(Object key) {
@@ -112,30 +121,35 @@ public class MyHashMap<K, V> implements Map<K, V> {
         if (buckets[index] == null) {
             return null;
         } else {
-            if (buckets[index].next != null) {
-                for (Bucket<K, V> bucket = buckets[index]; bucket.hasNext(); bucket = bucket.nextBucket()) {
-                    if (bucket.key.equals(key)) {
-                        if (bucket.next == null) {
-                            bucket = null;
+            if (buckets[index].next!=null) {
+
+                Bucket<K, V> currentBucket = buckets[index];
+
+                while (currentBucket.hasNext()) {
+                    if (currentBucket.key.equals(key)) {
+                        if (currentBucket.next == null) {
+                            currentBucket = null;
                             size--;
                         } else {
-                            buckets[index] = bucket.next;
+                            buckets[index] = currentBucket.next;
                         }
                     }
-                    if (bucket.next.key.equals(key)) {
-                        Bucket<K, V> nextNextBucket = bucket.nextBucket().nextBucket();
+                    if (currentBucket.next.key.equals(key)) {
+                        Bucket<K, V> nextNextBucket = currentBucket.nextBucket().nextBucket();
                         if (nextNextBucket == null) {
-                            bucket.next = null;
+                            currentBucket.next = null;
                             size--;
                             return null;
 
                         } else {
-                            bucket.next = null;
+                            currentBucket.next = null;
                             size--;
-                            bucket.next = nextNextBucket;
+                            currentBucket.next = nextNextBucket;
                             return null;
                         }
+
                     }
+                    currentBucket = currentBucket.nextBucket();
                 }
 
             } else {
@@ -150,6 +164,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     public void print() {
+        System.out.println("______________________________________________________________________________________\n");
         for (Bucket<K, V> bucket : buckets) {
             if (bucket == null) {
                 System.out.print("blanc");
@@ -157,13 +172,18 @@ public class MyHashMap<K, V> implements Map<K, V> {
                 System.out.println("\t|----" + bucket.getKey() + " " + bucket.getValue() + "|");
             } else if (bucket.hasNext()) {
                 System.out.print("\t|----" + bucket.getKey() + " " + bucket.getValue() + "|");
-                for (Bucket<K, V> currentBucket = bucket; currentBucket.hasNext(); currentBucket = currentBucket.next) {
+                Bucket<K, V> currentBucket = bucket;
+                while (currentBucket.next != null) {
+
+                    currentBucket = currentBucket.next;
                     System.out.print("\t|----" + currentBucket.getKey() + " " + currentBucket.getValue() + "|");
                 }
             }
             System.out.println();
         }
+        System.out.println("______________________________________________________________________________________");
     }
+
 
     private Bucket<K, V> getBucket(Object key) {
         if (size == 0) {
@@ -175,25 +195,26 @@ public class MyHashMap<K, V> implements Map<K, V> {
         if (buckets[index] == null) {
             return null;
         } else if (buckets[index].hasNext()) {
-            for (Bucket<K, V> bucket = buckets[index]; bucket.hasNext(); bucket = bucket.nextBucket()) {
-                if (bucket.key.equals(key)) {
-                    return bucket;
+            Bucket<K, V> currentBucket = buckets[index];
+            while (currentBucket.hasNext()) {
+                if (currentBucket.key.equals(key)) {
+                    return currentBucket;
                 }
+                currentBucket = currentBucket.nextBucket();
             }
-            if (buckets[index].lastBucket().key.equals(key)) {
-                return buckets[index].lastBucket();
+            if (currentBucket.lastBucket().key.equals(key)) {
+                return currentBucket.lastBucket();
             }
         }
         return null;
     }
 
-
     @Override
     public void putAll(Map<? extends K, ? extends V> m) {
-        for (Map.Entry<? extends K, ? extends V> entry : m.entrySet()) {
-            K key = entry.getKey();
-            V value = entry.getValue();
-            put(key, value);
+        Set<? extends K> keySet = m.keySet();
+        Object[] keys = keySet.toArray();
+        for (Object o : keys) {
+            put((K) o, (V) get(o));
         }
     }
 
@@ -209,10 +230,12 @@ public class MyHashMap<K, V> implements Map<K, V> {
         for (int i = 0; i < buckets.length; i++) {
             if (buckets[i] != null) {
                 if (buckets[i].hasNext()) {
-                    for (Bucket<K, V> bucket = buckets[i]; bucket.hasNext(); bucket = bucket.nextBucket()) {
-                        set.add(bucket.key);
+                    Bucket<K, V> currentBucket = buckets[i];
+                    while (currentBucket.hasNext()) {
+                        set.add(currentBucket.key);
+                        currentBucket = currentBucket.nextBucket();
                     }
-                    set.add(buckets[i].lastBucket().key);
+                    set.add(currentBucket.lastBucket().key);
                 } else {
                     set.add(buckets[i].key);
                 }
@@ -227,11 +250,12 @@ public class MyHashMap<K, V> implements Map<K, V> {
         for (int i = 0; i < buckets.length; i++) {
             if (buckets[i] != null) {
                 if (buckets[i].hasNext()) {
-                    for (Bucket<K, V> currentBucket = buckets[i]; currentBucket.hasNext(); currentBucket = currentBucket.nextBucket()) {
-
+                    Bucket<K, V> currentBucket = buckets[i];
+                    while (currentBucket.hasNext()) {
                         values.add(currentBucket.value);
+                        currentBucket = currentBucket.nextBucket();
                     }
-                    values.add(buckets[i].lastBucket().value);
+                    values.add(currentBucket.lastBucket().value);
                 } else {
                     values.add(buckets[i].value);
                 }
@@ -269,7 +293,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
             return key;
         }
 
-        public K setKey(K key) {
+        public K setKey(K key){
             return key;
         }
 
