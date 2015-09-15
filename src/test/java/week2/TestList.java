@@ -54,7 +54,7 @@ public class TestList {
     list.add(4);
     Assert.assertTrue(list.size() == 1);
 
-    int index = 0;
+    int index = 2342;
     list.get(index);
   }
 
