@@ -1,4 +1,4 @@
-package homework3.command;
+package homework3;
 
 import homework3.ConsoleInterface;
 
