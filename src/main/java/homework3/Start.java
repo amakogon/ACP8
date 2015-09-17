@@ -1,7 +1,5 @@
 package homework3;
 
-import homework3.ConsoleInterface;
-
 /**
  * Created by Razer on 16.09.15.
  */

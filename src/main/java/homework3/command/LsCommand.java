@@ -24,8 +24,14 @@ public class LsCommand implements ICommand {
 
     @Override
     public void execute(String param) {
-        File file = new File(CommandControl.HOME_DIRECTORY);
-        File[] files = file.listFiles();
+        String path = CommandControl.localDirectory;
+        if (param.length() > 0) {
+            path = path.concat("/" + param);
+            CommandControl.localDirectory = path;
+        }
+        File directory = new File(path);
+        File[] files = directory.listFiles();
         System.out.println(Arrays.toString(files));
     }
+
 }

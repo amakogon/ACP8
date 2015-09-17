@@ -7,14 +7,15 @@ import homework3.ICommand;
  */
 public class CdCommand implements ICommand {
 
-    public String getName() {
-        return name;
-    }
-
     private String name;
 
     public CdCommand(String name) {
         this.name = name;
+    }
+
+
+    public String getName() {
+        return name;
     }
 
     @Override
