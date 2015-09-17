@@ -22,16 +22,27 @@ public class LsCommand implements ICommand {
         this.name = name;
     }
 
+
     @Override
     public void execute(String param) {
         String path = CommandControl.localDirectory;
         if (param.length() > 0) {
             path = path.concat("/" + param);
-            CommandControl.localDirectory = path;
+            File directory = new File(path);
+            if (directory.isDirectory()) {
+                File[] files = directory.listFiles();
+                CommandControl.localDirectory = path;
+                System.out.println(Arrays.toString(files));
+            } else {
+                System.err.println(path + " No such file or directory");
+            }
+
+        } else {
+            File directory = new File(path);
+            File[] files = directory.listFiles();
+            System.out.println(Arrays.toString(files));
+
         }
-        File directory = new File(path);
-        File[] files = directory.listFiles();
-        System.out.println(Arrays.toString(files));
     }
 
 }

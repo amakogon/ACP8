@@ -63,7 +63,7 @@ public class ConsoleInterface {
                 commandControl.commands.get(i).execute(parametr);
                 break;
             }else {
-                System.err.println(command+ "command not found");
+                System.err.println(command+ " command not found");
             }
 
         }
