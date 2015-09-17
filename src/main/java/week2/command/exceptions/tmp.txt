@@ -1,0 +1,38 @@
+/*  ]
+                        public Ls(String...args){*/
+          /*
+            this.directory=directory;
+            if (!directory.isDirectory()) {
+                try {
+                    throw new IsNotADirectoryEexcption();
+                } catch (IsNotADirectoryEexcption isNotADirectoryEexcption) {
+                    isNotADirectoryEexcption.printStackTrace();
+                }
+            }
+
+
+        }
+
+        @Override
+        public void execute() {
+            String[] list = directory.list();
+            for(String s:list){
+                System.out.println(s);
+            }
+        }
+
+
+        String[] command;
+                public Help(String[] command) {
+                    this.command=command;
+                }
+                @Override
+                public void execute(String params) {
+                    System.out.println("" +
+                            "      ls - вывести содержимое текущей директории\n" +
+                            "      cd - изменить текущую директорию\n" +
+                            "      mkdir - создать директорию\n" +
+                            "      rm - удалить файл или директорию\n" +
+                            "      cat - вывести содержимое файла\n" +
+                            "      help - доступные команды");
+                }
