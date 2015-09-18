@@ -23,7 +23,7 @@ public class Cli {
 
         this.args = args;
 
-        options.addOption("h", "help", false, "show help.");
+        options.addOption("h", "Help", false, "show Help.");
         options.addOption("v", "var", true, "Here you can set parameter .");
 
     }
@@ -53,7 +53,7 @@ public class Cli {
     }
 
     private void help() {
-        // This prints out some help
+        // This prints out some Help
         HelpFormatter formater = new HelpFormatter();
 
         formater.printHelp("Main", options);
