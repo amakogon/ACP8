@@ -23,6 +23,7 @@ public class Cmd {
         while (true) {
             reciever.promt();
             try {
+
                 reciever.executeCommand(bufferedReader.readLine());
 
             } catch (IOException e) {

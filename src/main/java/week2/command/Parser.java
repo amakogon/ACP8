@@ -12,13 +12,13 @@ public class Parser {
 
 
 
-    public String[] parceCommand(String string){
+   /* public String[] parceCommand(String string){
         String[] parcedComand = string.split("\\$|#");
         return parcedComand;
     }
     public String[] parceCommandWithArgs (String string){
         if (string==null){ return new String[]{};}
         return string.split(" | -");
-    }
+    }*/
 
 }
