@@ -1,11 +1,10 @@
 package week2.command;
 
 import java.io.BufferedReader;
-import java.io.File;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+
 
 /**
  * _|\_/|,,_____,~~`
@@ -23,12 +22,14 @@ public class Cmd {
         while (true) {
             reciever.promt();
             try {
-
-                reciever.executeCommand(bufferedReader.readLine());
+                String cmd = bufferedReader.readLine();
+                if(cmd.equals("exit")){break;}
+                reciever.executeCommand(cmd);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
 
         }
     }

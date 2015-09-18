@@ -2,7 +2,9 @@ package week2.command;
 
 import org.apache.commons.io.FileUtils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ import java.util.Locale;
  * __\o/\ /---~\\ ~}}
  * ___ _//    _// ~}
  */
+
 public class Reciever {
 
     File currentDirectory = setCurrentDirectory(System.getProperty("user.dir"));
@@ -22,6 +25,7 @@ public class Reciever {
     String userName = System.getProperty("user.name");
     String promt;
     String command;
+    String postfix=(userName.equals("root")?"#":"$");
 
     public File setCurrentDirectory(String currentDirectory) {
         this.currentDirectory = new File(currentDirectory);
@@ -30,7 +34,7 @@ public class Reciever {
 
 
     public void promt() {
-        String promt = "\n[" + time + " " + userName + "] " + currentDirectory + " $";
+        String promt = "\n[" + time + " " + userName + "] " + currentDirectory + File.separator + postfix;
         System.out.print(promt);
     }
 
@@ -41,7 +45,7 @@ public class Reciever {
         String execCommend = command.split(" ")[0];
         if (commandsSet.contains(execCommend)) {
             commands.commandList.get(execCommend).execute();
-        }
+        }else System.out.println("Unknown command. Try [help]!");
 
 
     }
@@ -59,6 +63,8 @@ public class Reciever {
             commandList.put("cd", new Cd());
             commandList.put("mkdir", new Mkdir());
             commandList.put("rm", new Rm());
+            commandList.put("cat", new Cat());
+            commandList.put("help", new Help());
         }
 
         public HashSet<String> getCommands() {
@@ -91,9 +97,9 @@ public class Reciever {
                     if (!String.valueOf(targetDirectoryName.charAt(targetDirectoryName.length() - 1)).equals(File.separator)) {
                         targetDirectoryName = targetDirectoryName + File.separator;
                     }
-                    File tergetDirectory = new File(targetDirectoryName);
-                    if (tergetDirectory.isDirectory() && tergetDirectory.exists()) {
-                        String[] fileList = tergetDirectory.list();
+                    File targetDirectory = new File(currentDirectory+File.separator+targetDirectoryName);
+                    if (targetDirectory.isDirectory() && targetDirectory.exists()) {
+                        String[] fileList = targetDirectory.list();
                         for (String f : fileList) {
                             System.out.println(f);
                         }
@@ -106,7 +112,11 @@ public class Reciever {
 
             @Override
             String help() {
-                return null;
+
+                return "\n[ls] command use to get directory list." +
+                        "\nUsage:" +
+                        "\nls ↲" +
+                        "\nls DIRECTORY ↲";
             }
         }
 
@@ -119,14 +129,17 @@ public class Reciever {
                     System.out.println("Input directory name!");
                 } else {
                     String targetDirectoryName = splitedCommand[1].trim();
+                    if (!targetDirectoryName.contains(File.separator)) {
+                        targetDirectoryName = currentDirectory + File.separator + targetDirectoryName;
+                    }
                     if (!String.valueOf(targetDirectoryName.charAt(targetDirectoryName.length() - 1)).equals(File.separator)) {
                         targetDirectoryName = targetDirectoryName + File.separator;
                     }
-                    File tergetDirectory = new File(targetDirectoryName);
+                    File targetDirectory = new File(targetDirectoryName);
 
-                    if (tergetDirectory.isDirectory() && tergetDirectory.exists()) {
+                    if (targetDirectory.isDirectory() && targetDirectory.exists()) {
                         try {
-                            setCurrentDirectory(tergetDirectory.getCanonicalPath());
+                            setCurrentDirectory(targetDirectory.getCanonicalPath());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -138,24 +151,53 @@ public class Reciever {
 
             @Override
             String help() {
-                return null;
+                return "\n[cd] command use to set current directory." +
+                        "\nUsage:" +
+                        "\ncd DIRECTORY ↲";
             }
         }
 
         public class Mkdir extends ACommand {
             @Override
             void execute() {
-                try {
-                    File f = new File(currentDirectory.getCanonicalPath() + File.separator + command.split(" ")[1]);
-                    f.mkdirs();
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                String[] splitedCommand = command.split(" ");
+                if (splitedCommand.length == 1) {
+                    System.out.println("Input directory name!");
+                } else {
+                    String targetDirectoryName = splitedCommand[1].trim();
+                    if (!targetDirectoryName.contains(File.separator)) {
+
+                        try {
+                            File targetDirectory = new File(currentDirectory + File.separator + targetDirectoryName);
+                            System.out.println(targetDirectory.getCanonicalPath());
+                            FileUtils.forceMkdir(targetDirectory);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        File targetDirectory = new File(targetDirectoryName);
+                        try {
+                            if(!targetDirectory.exists()){
+                            FileUtils.forceMkdir(targetDirectory);}
+                            else {
+                                System.out.println("Directory already exist!");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
+
+
             }
 
             @Override
             String help() {
-                return null;
+                return "\n[mkdir] command use to create new directory." +
+                        "\nUsage:" +
+                        "\nmkdir NEW_DIRECTORY_NAME ↲" +
+                        "\nmkdir PATH"+File.separator+"NEW_DIRECTORY_NAME ↲";
             }
         }
 
@@ -167,71 +209,93 @@ public class Reciever {
                     System.out.println("Can not remove current directory!");
                 } else {
                     String targetDirectoryName = splitedCommand[1].trim();
+                    if (!targetDirectoryName.contains(File.separator)) {
+                        targetDirectoryName = currentDirectory + File.separator + targetDirectoryName;
+                    }
                     if (!String.valueOf(targetDirectoryName.charAt(targetDirectoryName.length() - 1)).equals(File.separator)) {
                         targetDirectoryName = targetDirectoryName + File.separator;
                     }
 
-                    File tergetDirectory = new File(targetDirectoryName);
-                    if(tergetDirectory.exists()){
-                    try {
-                        if (tergetDirectory.isDirectory()) {
-                            FileUtils.deleteDirectory(tergetDirectory);
-                        } else {
-                            FileUtils.forceDelete(tergetDirectory);
+                    File targetDirectory = new File(targetDirectoryName);
+                    if (targetDirectory.exists()) {
+                        try {
+                            if (targetDirectory.isDirectory() && !targetDirectory.getCanonicalPath().equals(currentDirectory.getCanonicalPath())) {
+                                FileUtils.deleteDirectory(targetDirectory);
+                            } else if (!targetDirectory.getCanonicalPath().equals(currentDirectory.getCanonicalPath())) {
+                                FileUtils.forceDelete(targetDirectory);
+                            } else {
+                                System.out.println("Can not remove current directory!");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    }else {
+                    } else {
                         System.out.println("No such file/directory");
                     }
-
-                   /* if (tergetDirectory.isDirectory() && tergetDirectory.exists()) {
-                        setCurrentDirectory(tergetDirectory);
-                    } else {
-                        System.out.println("Input directory name!");
-                    }*/
                 }
 
-                /*try {
-                    File f = new File(currentDirectory.getCanonicalPath() + File.separator + command.split(" ")[1]);
-                    if (f.isDirectory()) {
-                        FileUtils.deleteDirectory(f);
-                    } else {
-                        FileUtils.forceDelete(f);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
             }
 
             @Override
             String help() {
-                return null;
+                return "\n[rm] command use to remove directory." +
+                        "\nUsage:" +
+                        "\nrm DIRECTORY ↲";
             }
         }
 
         public class Cat extends ACommand {
             @Override
             void execute() {
+                String[] splitedCommand = command.split(" ");
+                if (splitedCommand.length == 1) {
+                    System.out.println("Input file name!");
+                } else {
+                    String fileName = splitedCommand[1].trim();
+                    if (!fileName.contains(File.separator)) {
+                        fileName = currentDirectory + File.separator + fileName;
+                    }
+
+
+                    File file = new File(fileName);
+                    if (file.exists()&&file.isFile()) {
+                        try {
+                            System.out.println();
+                            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                            while (bufferedReader.ready()){
+                                System.out.println(bufferedReader.readLine());
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    } else {
+                        System.out.println("Wrong file name!");
+                    }
+                }
 
             }
 
             @Override
             String help() {
-                return null;
+                return "\n[cat] command use to reed the file." +
+                        "\nUsage:" +
+                        "\ncat FILE ↲" +
+                        "\ncat PATH"+File.separator+"FILE ↲";
             }
         }
 
         public class Help extends ACommand {
             @Override
             void execute() {
-
+                for(String s:commandList.keySet()){
+                    System.out.println(commandList.get(s).help());
+                }
             }
 
             @Override
             String help() {
-                return null;
+                return "\n[help] command is using to get available command list. ";
             }
         }
     }

@@ -214,7 +214,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
         Set<? extends K> keySet = m.keySet();
         Object[] keys = keySet.toArray();
         for (Object o : keys) {
-            put((K) o, (V) get(o));
+            put((K) o, get(o));
         }
     }
 
