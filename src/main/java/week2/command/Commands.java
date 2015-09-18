@@ -2,6 +2,7 @@
 package week2.command;
 
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.io.DirectoryWalker;
 
 import javax.activation.CommandMap;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.HashMap;
  */
 
 public class Commands {
+  DirectoryWalker
 
     public interface Command {
         void execute();
