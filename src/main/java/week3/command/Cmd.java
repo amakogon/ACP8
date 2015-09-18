@@ -1,4 +1,4 @@
-package week2.command;
+package week3.command;
 
 import java.io.BufferedReader;
 
