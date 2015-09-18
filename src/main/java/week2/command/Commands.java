@@ -1,13 +1,6 @@
 
 package week2.command;
 
-<<<<<<< HEAD
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.io.DirectoryWalker;
-=======
->>>>>>> 69374e91f771c8bf021380e57b2cd23c1421e99d
-
-import java.util.HashMap;
 
 /**
  * _|\_/|,,_____,~~`
@@ -16,15 +9,22 @@ import java.util.HashMap;
  * ___ _//    _// ~}
  */
 
-public class Commands {
-<<<<<<< HEAD
-  DirectoryWalker
-=======
-    String[] command;
+/*public class Commands {
+    String promt;
+    String command;
+
+    public Commands(String promt, String command) {
+        this.promt = promt;
+        this.command = command;
+    }
+
+}*/
+    /*Parser parser = new Parser();
 
     private HashMap<String, ACommand> commands = new HashMap<>();
 
-    public Commands(String[] command) {
+    public Commands(String command, String promt) {
+        this.promt=promt;
         this.command = command;
 
         commands.put("ls", new Ls(command));
@@ -33,12 +33,11 @@ public class Commands {
         commands.put("rm", new Rm(command));
         commands.put("cat", new Cat(command));
         commands.put("help", new Help(command));
->>>>>>> 69374e91f771c8bf021380e57b2cd23c1421e99d
 
     }
 
-    public String[] parse(String s){
-        return new Parser(s).parce();
+    public String[] parseCommand(String s) {
+        return new Parser().parceCommand(s);
     }
 
     public HashMap<String, ACommand> getCommands() {
@@ -47,17 +46,19 @@ public class Commands {
 
     public interface Command {
         void execute(String params);
+
         String help();
     }
 
     public abstract class ACommand implements Command {
-        String[] command;
+        String command;
 
-        public ACommand(String[] command) {
+        public ACommand(String command) {
             this.command = command;
         }
 
     }
+
 
     public class Ls extends ACommand {
 
@@ -68,9 +69,25 @@ public class Commands {
 
         @Override
         public void execute(String params) {
-            String[] args = parse(params);
-            if(args.length==1){
-                    
+            String[] args = parseCommand(params);
+            String promt = args[0];
+            String arguments = args[1];
+            String[] commandWithArguments = parser.parceCommandWithArgs(arguments);
+
+            String currentDirectory = promt.split("\\] ")[1].trim();
+            File directory = new File(currentDirectory);
+            if (commandWithArguments.length == 2) {
+
+                String[] fileList = directory.list();
+                for (String f : fileList) {
+                    System.out.println(f);
+                }
+            } else if (commandWithArguments.length > 2) {
+                directory = new File(commandWithArguments[2]);
+                String[] fileList = directory.list();
+                for (String f : fileList) {
+                    System.out.println(f);
+                }
             }
 
         }
@@ -166,7 +183,7 @@ public class Commands {
             return "";
         }
     }
+*/
 
 
-}
 

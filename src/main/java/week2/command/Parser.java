@@ -9,14 +9,14 @@ package week2.command;
 
 
 public class Parser {
-    String string;
 
 
-    public Parser(String string){
-        this.string=string;
+
+    public String[] parceCommand(String string){
+        String[] parcedComand = string.split("\\$|#");
+        return parcedComand;
     }
-
-    public String[] parce (){
+    public String[] parceCommandWithArgs (String string){
         if (string==null){ return new String[]{};}
         return string.split(" | -");
     }

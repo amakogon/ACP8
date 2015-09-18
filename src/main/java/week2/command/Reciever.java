@@ -1,25 +1,38 @@
 package week2.command;
 
-import java.util.HashMap;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
- * Created by juff on 17.09.15.
+ * _|\_/|,,_____,~~`
+ * _(.".)~~     )`~}} Created by Juff on $18.09.15
+ * __\o/\ /---~\\ ~}}
+ * ___ _//    _// ~}
  */
 public class Reciever {
 
+    File currentDirectory = new File(System.getProperty("user.dir"));
+    String promt = "\n[" + new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(System.currentTimeMillis()) + " " + System.getProperty("user.name") + "] " + currentDirectory + " $";
     String command;
-    HashMap<String, Commands.ACommand> commands = new Commands(new Parser(command).parce()).getCommands();
 
+    public void promt(){
+        System.out.print(promt);
+    }
     public void executeCommand(String command) {
-        System.out.println();
         this.command = command;
-        String[] parcedComand = new Parser(command).parce();
-        command = parcedComand[0];
-        if(commands.containsKey(command)){
-           commands.get(command).execute(command);
-        } else System.out.println("Invalid command, type \"help\" to get command list.");
+        Commands commands = new Commands(promt,command);
 
     }
 
+    private class Commands {
+        String promt;
+        String command;
+
+        public Commands(String promt, String command) {
+            this.promt = promt;
+            this.command = command;
+        }
+    }
 
 }
