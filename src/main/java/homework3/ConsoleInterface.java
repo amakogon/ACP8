@@ -4,11 +4,6 @@ package homework3;
  * Created by Razer on 16.09.15.
  */
 
-import homework3.command.CdCommand;
-import homework3.command.HelpCommand;
-import homework3.command.LsCommand;
-import homework3.command.MkdirCommand;
-
 import java.util.Scanner;
 
 
@@ -18,6 +13,7 @@ import java.util.Scanner;
 public class ConsoleInterface {
 
     CommandControl commandControl;
+    Scanner sc = new Scanner(System.in);
 
     public ConsoleInterface() {
         init();
@@ -25,32 +21,24 @@ public class ConsoleInterface {
 
     private void init() {
         commandControl = new CommandControl();
-        setCommand();
-        commandControl.readHomeDirectory();
-        while (true) {
-            String command = readCommand();
+        commandControl.init();
+        boolean running = true;
+        while (running) {
+            String command = sc.nextLine();
+            isExit(command);
             parseCommand(command);
         }
     }
 
-    public String readCommand() {
-        Scanner sc = new Scanner(System.in);
-        return sc.nextLine();
-    }
-
-    private void setCommand() {
-        HelpCommand help = new HelpCommand("help");
-        MkdirCommand mkdir = new MkdirCommand("mkdir");
-        LsCommand ls = new LsCommand("ls");
-        CdCommand cd = new CdCommand("cd");
-        commandControl.setCommands(ls);
-        commandControl.setCommands(cd);
-        commandControl.setCommands(mkdir);
-        commandControl.setCommands(help);
+    private void isExit(String command) {
+        if (command.equals("exit")) {
+            System.exit(0);
+        }
     }
 
 
     public void parseCommand(String command) {
+        boolean isCommand = false;
         String newCommand;
         String parametr = "";
         String[] parts = command.split(" ");
@@ -61,15 +49,16 @@ public class ConsoleInterface {
         for (int i = 0; i < commandControl.commands.size(); i++) {
             if (commandControl.commands.get(i).getName().equals(newCommand)) {
                 commandControl.commands.get(i).execute(parametr);
+                isCommand = true;
                 break;
-            }else {
-                System.err.println(command+ " command not found");
             }
-
+        }
+        if (!isCommand) {
+            System.err.println(command + " command not found");
         }
     }
-
 }
+
 
 
 

@@ -1,37 +1,52 @@
 package homework3;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import homework3.command.CdCommand;
+import homework3.command.HelpCommand;
+import homework3.command.LsCommand;
+import homework3.command.MkdirCommand;
+
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * Created by Razer on 17.09.15.
  */
 public class CommandControl {
 
+    public void init(){
+        properties=new Properties();
+        setCommands();
+        readHomeDirectory();
+    }
+
+    private Properties properties;
+
     public ArrayList<ICommand> commands = new ArrayList<>();
 
     public static String localDirectory;
 
-    public static String homeDirectory;
-
-    public void setCommands(ICommand commands) {
-        this.commands.add(commands);
-    }
-
-    public void readHomeDirectory() {
-        String file=ClassLoader.getSystemResource("homeDirectory").getPath();
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String currLine;
-            while ((currLine = reader.readLine()) != null) {
-                String[] pair = currLine.split("=");
-                homeDirectory = pair[0].trim();
-                CommandControl.localDirectory = homeDirectory;
-            }
+    private void readHomeDirectory() {
+        String path = ClassLoader.getSystemResource("home").getPath();
+        try {
+            properties.load(new FileInputStream(path));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        String homeDirectory = properties.getProperty("homeDirectory");
+        CommandControl.localDirectory = homeDirectory;
+    }
+
+    private void setCommands() {
+        HelpCommand help = new HelpCommand("help");
+        MkdirCommand mkdir = new MkdirCommand("mkdir");
+        LsCommand ls = new LsCommand("ls");
+        CdCommand cd = new CdCommand("cd");
+        commands.add(ls);
+        commands.add(cd);
+        commands.add(mkdir);
+        commands.add(help);
     }
 
     @Override
