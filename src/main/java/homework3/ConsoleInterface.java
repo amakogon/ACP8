@@ -46,9 +46,9 @@ public class ConsoleInterface {
         if (parts.length > 1) {
             parametr = parts[1];
         }
-        for (int i = 0; i < commandControl.commands.size(); i++) {
-            if (commandControl.commands.get(i).getName().equals(newCommand)) {
-                commandControl.commands.get(i).execute(parametr);
+        for (int i = 0; i < commandControl.getCommands().size(); i++) {
+            if (commandControl.getCommands().get(i).getName().equals(newCommand)) {
+                commandControl.getCommands().get(i).execute(parametr);
                 isCommand = true;
                 break;
             }

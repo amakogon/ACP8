@@ -23,9 +23,15 @@ public class CommandControl {
 
     private Properties properties;
 
-    public ArrayList<ICommand> commands = new ArrayList<>();
+    public ArrayList<ICommand> getCommands() {
+        return commands;
+    }
+
+    private ArrayList<ICommand> commands = new ArrayList<>();
 
     public static String localDirectory;
+
+    public static String homeDirectory;
 
     private void readHomeDirectory() {
         String path = ClassLoader.getSystemResource("home").getPath();
@@ -34,12 +40,12 @@ public class CommandControl {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String homeDirectory = properties.getProperty("homeDirectory");
+        homeDirectory = properties.getProperty("homeDirectory");
         CommandControl.localDirectory = homeDirectory;
     }
 
     private void setCommands() {
-        HelpCommand help = new HelpCommand("help");
+        HelpCommand help = new HelpCommand("help", this);
         MkdirCommand mkdir = new MkdirCommand("mkdir");
         LsCommand ls = new LsCommand("ls");
         CdCommand cd = new CdCommand("cd");
@@ -51,8 +57,6 @@ public class CommandControl {
 
     @Override
     public String toString() {
-        return "CommandControl{" +
-                "commands=" + commands +
-                '}';
+        return commands+" ";
     }
 }

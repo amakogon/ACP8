@@ -1,8 +1,10 @@
 package homework3.command;
 
 
+import homework3.CommandControl;
 import homework3.ICommand;
 
+import java.io.File;
 
 
 /**
@@ -22,6 +24,15 @@ public class MkdirCommand implements ICommand {
 
     @Override
     public void execute(String param) {
+        File file=new File(CommandControl.localDirectory);
+        if(!file.exists()) {
+            file.mkdir();
+            }
+       // else
+        }
 
+    @Override
+    public String toString() {
+        return name+"";
     }
 }

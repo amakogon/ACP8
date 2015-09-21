@@ -1,6 +1,7 @@
 package homework3.command;
 
 
+import homework3.CommandControl;
 import homework3.ICommand;
 
 /**
@@ -9,20 +10,26 @@ import homework3.ICommand;
 public class HelpCommand implements ICommand {
 
     String name;
+    CommandControl commandControl;
 
-    public HelpCommand(String name) {
+    public HelpCommand(String name, CommandControl commandControl)
+    {
+        this.commandControl = commandControl;
         this.name = name;
     }
 
 
     @Override
     public void execute(String param) {
-        
+        System.out.println(commandControl.toString());
     }
 
     @Override
     public String getName() {
         return name;
     }
-
+    @Override
+    public String toString() {
+        return name+ "";
+    }
 }
