@@ -4,6 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * |\_/|,,_____,~~`
+ * (.".)~~     )`~}} Created by Juff
+ *  \o/\ /---~\\ ~}}
+ *    _//    _// ~}
+ */
 
 public class WeatherData {
     private int id;

@@ -9,9 +9,13 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+/**
+ * |\_/|,,_____,~~`
+ * (.".)~~     )`~}} Created by Juff
+ *  \o/\ /---~\\ ~}}
+ *    _//    _// ~}
+ */
 
-
-/*{"coord":{"lon":30.52,"lat":50.43},"weather":[{"id":800,"main":"Clear","description":"Sky is Clear","icon":"01d"}],"base":"cmc stations","main":{"temp":27.77,"pressure":1012,"humidity":22,"temp_min":26,"temp_max":29},"wind":{"speed":4,"deg":140},"clouds":{"all":0},"dt":1442761200,"sys":{"type":1,"id":7348,"message":0.004,"country":"UA","sunrise":1442720479,"sunset":1442764816},"id":703448,"name":"Kiev","cod":200}*/
 public class WeatherGetter extends Thread {
     String city;
     int updateFreq;
@@ -54,13 +58,9 @@ public class WeatherGetter extends Thread {
             bufferedReader.close();
             inputStream.close();
             String jsonText = builder.toString();
-            /*"\"\\w++\":\\[.*\\],"
-            if(jsonText.matches())*/
+            WeatherParser weatherParser = new WeatherParser(jsonText);
+            weatherParser.getWeather();
 
-            jsonText = jsonText.replaceAll("\\[", "");
-            jsonText = jsonText.replaceAll("\\]", "");
-            WeatherData weatherData = gson.fromJson(jsonText, WeatherData.class);
-            System.out.println(weatherData);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
