@@ -63,7 +63,7 @@ public class WeatherData {
         @Override
         public String toString() {
             return "\nSunrise at " + new SimpleDateFormat("hh:mm:ss", Locale.ENGLISH).format(new Date(sunrise)) + "" +
-                    "\nSunset at " + new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(new Date(sunset));
+                    "\nSunset  at " + new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(new Date(sunset));
         }
     }
 

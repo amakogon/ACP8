@@ -54,6 +54,9 @@ public class WeatherGetter extends Thread {
             bufferedReader.close();
             inputStream.close();
             String jsonText = builder.toString();
+            /*"\"\\w++\":\\[.*\\],"
+            if(jsonText.matches())*/
+
             jsonText = jsonText.replaceAll("\\[", "");
             jsonText = jsonText.replaceAll("\\]", "");
             WeatherData weatherData = gson.fromJson(jsonText, WeatherData.class);
