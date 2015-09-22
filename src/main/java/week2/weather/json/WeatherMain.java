@@ -1,4 +1,4 @@
-package week2.weather;
+package week2.weather.json;
 
 /**
  * |\_/|,,_____,~~`
