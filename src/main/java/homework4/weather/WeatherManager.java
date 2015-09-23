@@ -31,6 +31,8 @@ public class WeatherManager {
             while (reader.ready()) {
                 builder.append(reader.readLine());
             }
+            reader.close();
+            inputStream.close();
             System.out.println(builder.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -42,27 +44,23 @@ public class WeatherManager {
 
     public void getWeather() {
         String data = readFromURL(city, format);
-        typeOfParsing(data);
+        switchTypeOfParsing(data);
     }
 
     private void jsonParser(String jsonToString) {
-        //Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Gson gson=new Gson();
-        jsonToString = jsonToString.replaceAll("\\[", "");
-        jsonToString = jsonToString.replaceAll("\\]", "");
+        Gson gson = new Gson();
         WeatherData weatherData = gson.fromJson(jsonToString, WeatherData.class);
         System.out.println(weatherData);
-        //WeatherData weatherData=gson.fromJson(data, WeatherData.class);
         //System.out.println(weatherData.toString());
-        }
+    }
 
     private void xmlParser(String data) {
         XStream xStream = new XStream();
         xStream.alias("weather", WeatherData.class);
-        String xml= (String) xStream.fromXML(data);
+        String xml = (String) xStream.fromXML(data);
     }
 
-    private void typeOfParsing(String data) {
+    private void switchTypeOfParsing(String data) {
         switch (format) {
             case "json":
                 jsonParser(data);

@@ -4,31 +4,53 @@ package homework4.weather;
  * Created by Razer on 20.09.15.
  */
 public class WeatherData {
-    private double main;
-    private String wind;
+    private int id;
+    private String name;
+    private Main main;
+    public Weather[] weather;
 
-    public double getMain() {
-        return main;
-    }
 
-    public void setMain(double main) {
-        this.main = main;
-    }
 
-    public String getWind() {
-        return wind;
-    }
-
-    public void setWind(String wind) {
-        this.wind = wind;
-    }
 
     @Override
     public String toString() {
         return "WeatherData{" +
-                "main=" + main +
-                ", window='" + wind + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", main=" + main +
                 '}';
     }
+    //nested
+    static class Main {
+        double temp;
+        double humidity;
+        double pressure;
+        double temp_min;
+        double temp_max;
+
+        @Override
+        public String toString() {
+            return "Main{" +
+                    "humidity=" + humidity +
+                    ", temp=" + temp +
+                    ", pressure=" + pressure +
+                    ", temp_min=" + temp_min +
+                    ", temp_max=" + temp_max +
+                    '}';
+        }
+    }
+
+    static class Weather {
+        String main;
+
+        @Override
+        public String toString() {
+            return "Weathe{" +
+                    "main='" + main + '\'' +
+                    '}';
+        }
+    }
+
 }
+
 
