@@ -1,4 +1,4 @@
-package week2.weather;
+package week2.weather.json;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,7 +45,7 @@ public class WeatherData {
         @Override
         public String toString() {
             return "\nTemperature is " + temp + (temp >= 0 ? " above zero" : " below zero") +
-                    "\nPresure is " + pressure + " Torr" +
+                    "\nPresure is " + pressure + " hPa" +
                     "\nMin temperature is " + temp_min + (temp_min >= 0 ? " above zero" : " below zero") +
                     "\nMax temperature is " + temp_max + (temp_max >= 0 ? " above zero" : " below zero");
 
@@ -58,7 +58,7 @@ public class WeatherData {
 
         @Override
         public String toString() {
-            return "\nWind speed is " + speed + " mps \nWind dirrection is " + deg + " degrees by North";
+            return "\nWind speed is " + speed + " mps \nWind direction is " + deg + " degrees by North";
         }
     }
 
