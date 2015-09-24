@@ -1,5 +1,7 @@
-package week2.drinks.core;
+package week2.drinks;
 
+import week2.drinks.core.Drink;
+import week2.drinks.core.PriceList;
 import week2.drinks.drinks.Tea;
 import week2.drinks.toppings.Cinnamon;
 import week2.drinks.drinks.Coffee;
