@@ -1,6 +1,6 @@
 package week1.day2;
 
-public class Human {
+public class Human implements Comparable<Human> {
   private String name;
   private int age;
 
@@ -40,7 +40,14 @@ public class Human {
 
   @Override
   public String toString() {
-    return super.toString();
+    return "Human{" +
+      "name='" + name + '\'' +
+      ", age=" + age +
+      '}';
   }
 
+  @Override
+  public int compareTo(Human o) {
+    return 0;
+  }
 }

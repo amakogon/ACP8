@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Created by Razer on 20.09.15.
  */
-public class WeatherData {
+public class WeatherDataGson {
     private int id;
     private String name;
     private Main main;
