@@ -8,15 +8,13 @@ import week2.drinks.core.Drink;
  * ..\o/\ /---~\\ ~}}
  * ...._//    _// ~}
  */
+public class Tea extends Drink {
 
-public class Coffee extends Drink {
-
-    final static String DESCRIPTION = "Coffee";
+    final static String DESCRIPTION = "Tea";
 
 
-    public Coffee() {
+    public Tea() {
         super(DESCRIPTION);
     }
-
 
 }

@@ -9,14 +9,11 @@ import week2.drinks.core.Topping;
  * ..\o/\ /---~\\ ~}}
  * ...._//    _// ~}
  */
-public class Milk extends Topping {
+public class Cinnamon extends Topping {
 
-
-    public Milk(Drink drink) {
+    public Cinnamon(Drink drink) {
         super(drink);
-        description = "milk";
+        description = "cinnamon";
     }
-
-
 
 }

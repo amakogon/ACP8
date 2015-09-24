@@ -6,19 +6,26 @@ package week2.drinks.core;
  * ..\o/\ /---~\\ ~}}
  * ...._//    _// ~}
  */
+
 public abstract class Drink {
+    public static PriceList priceList = PriceList.getPriceList();
+
     private String description;
 
-    protected Drink() {
-    }
+    protected Drink(){}
 
-    public Drink(String description) {
-        this.description = description;
+    public Drink(String description){
+        this.description=description;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public abstract double cost();
+    public double price(){
+        return priceList.getPrice(description.toLowerCase());
+    };
+
+
+
 }
