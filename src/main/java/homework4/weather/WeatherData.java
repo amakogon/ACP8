@@ -1,5 +1,7 @@
 package homework4.weather;
 
+import java.util.Arrays;
+
 /**
  * Created by Razer on 20.09.15.
  */
@@ -14,11 +16,7 @@ public class WeatherData {
 
     @Override
     public String toString() {
-        return "WeatherData{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", main=" + main +
-                '}';
+        return "Weather in "+name+" is "+ Arrays.toString(weather) + main.toString();
     }
     //nested
     static class Main {
@@ -30,8 +28,7 @@ public class WeatherData {
 
         @Override
         public String toString() {
-            return "Main{" +
-                    "humidity=" + humidity +
+            return  "humidity=" + humidity +
                     ", temp=" + temp +
                     ", pressure=" + pressure +
                     ", temp_min=" + temp_min +
@@ -42,6 +39,7 @@ public class WeatherData {
 
     static class Weather {
         String main;
+        String description;
 
         @Override
         public String toString() {

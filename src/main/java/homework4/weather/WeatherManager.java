@@ -31,9 +31,9 @@ public class WeatherManager {
             while (reader.ready()) {
                 builder.append(reader.readLine());
             }
+            System.out.println(builder.toString());
             reader.close();
             inputStream.close();
-            System.out.println(builder.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -50,7 +50,7 @@ public class WeatherManager {
     private void jsonParser(String jsonToString) {
         Gson gson = new Gson();
         WeatherData weatherData = gson.fromJson(jsonToString, WeatherData.class);
-        System.out.println(weatherData);
+        System.out.println(weatherData.toString());
         //System.out.println(weatherData.toString());
     }
 
