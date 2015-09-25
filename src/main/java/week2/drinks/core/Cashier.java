@@ -13,7 +13,7 @@ import java.io.IOException;
  * ..\o/\ /---~\\ ~}}
  * ...._//    _// ~}
  */
-public class Cassier {
+public class Cashier {
     public static PriceList priceList;
     public static void main(String[] args) throws IOException {
 
