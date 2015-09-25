@@ -1,4 +1,4 @@
-package homework.weather;
+package homework.homework4;
 
 import java.util.Observable;
 import java.util.Observer;

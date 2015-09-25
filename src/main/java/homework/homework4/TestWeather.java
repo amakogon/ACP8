@@ -1,6 +1,4 @@
-package homework.weather;
-
-import java.util.Date;
+package homework.homework4;
 
 /**
  * Created by Home on 20.09.2015.

@@ -1,0 +1,8 @@
+PRICE LIST
+Beverages:
+Coffee = 10;
+Tea = 5;
+Cocoa = 12;
+-------------
+Toppings:
+Caramel = 2;
