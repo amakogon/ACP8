@@ -7,13 +7,6 @@ public class WeatherDataXml {
 
     private Clouds clouds;
 
-    @Override
-    public String toString() {
-        return "WeatherDataXml{" +
-                ", temperature=" + temperature +
-                '}';
-    }
-
     private Wind wind;
 
     private Lastupdate lastupdate;
@@ -32,6 +25,12 @@ public class WeatherDataXml {
 
     private Temperature temperature;
 
+    @Override
+    public String toString() {
+        return "Weather in " + city.toString() + " is " +
+                temperature.toString() + " ";
+    }
+
 
     static class City {
         private String id;
@@ -46,13 +45,7 @@ public class WeatherDataXml {
 
         @Override
         public String toString() {
-            return "City{" +
-                    "coord=" + coord +
-                    ", id='" + id + '\'' +
-                    ", name='" + name + '\'' +
-                    ", sun=" + sun +
-                    ", country='" + country + '\'' +
-                    '}';
+            return name + " ";
         }
     }
 
@@ -64,57 +57,23 @@ public class WeatherDataXml {
 
     static class Temperature {
 
-        private String min;
+        private double min;
 
-        private String unit;
+        private double unit;
 
-        private String max;
+        private double max;
 
         private String value;
 
-        public void setMax(String max) {
-            this.max = max;
-        }
-
-        public void setMin(String min) {
-            this.min = min;
-        }
-
-        public void setUnit(String unit) {
-            this.unit = unit;
-        }
-
-        public void setValue(String value) {
-            this.value = value;
-        }
-
-        public String getMax() {
-
-            return max;
-        }
-
-        public String getMin() {
-            return min;
-        }
-
-        public String getUnit() {
-            return unit;
-        }
-
-        public String getValue() {
-            return value;
-        }
 
         @Override
         public String toString() {
             return "max='" + max + '\'' +
                     ", min='" + min + '\'' +
                     ", unit='" + unit + '\'' +
-                    ", value='" + value + '\'' +
-                    '}';
+                    ", value='" + value + '\'';
         }
     }
-
 
     static class Wind {
         private Speed speed;
