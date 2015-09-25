@@ -5,7 +5,7 @@ package homework4.weather;
  */
 public class Start {
     public static void main(String[] args) {
-    WeatherManager weatherManager=new WeatherManager();
+        WeatherManager weatherManager = new WeatherManager();
         weatherManager.getWeather();
     }
 }

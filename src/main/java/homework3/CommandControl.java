@@ -1,9 +1,6 @@
 package homework3;
 
-import homework3.command.CdCommand;
-import homework3.command.HelpCommand;
-import homework3.command.LsCommand;
-import homework3.command.MkdirCommand;
+import homework3.command.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -49,10 +46,14 @@ public class CommandControl {
         MkdirCommand mkdir = new MkdirCommand("mkdir");
         LsCommand ls = new LsCommand("ls");
         CdCommand cd = new CdCommand("cd");
+        RmCommand rm = new RmCommand("rm");
+        CatCommand cat=new CatCommand("cat");
         commands.add(ls);
         commands.add(cd);
         commands.add(mkdir);
         commands.add(help);
+        commands.add(rm);
+        commands.add(cat);
     }
 
     @Override

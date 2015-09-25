@@ -1,8 +1,5 @@
 package homework4.weather;
 
-import com.google.gson.Gson;
-import com.thoughtworks.xstream.XStream;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,13 +7,36 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Properties;
 
 /**
  * Created by Razer on 20.09.15.
  */
 public class WeatherManager {
-    private String city = "Kiev";
-    private String format = "json";
+    private String city;
+    private String format;
+    private Properties properties;
+
+    public WeatherManager() {
+        initSettings();
+        city = properties.getProperty("defaultcity");
+        format = properties.getProperty("format");
+    }
+
+    public WeatherManager(String city) {
+        initSettings();
+        this.city = city;
+        format = properties.getProperty("format");
+    }
+
+    public void initSettings() {
+        properties = new Properties();
+        try {
+            properties.load(ClassLoader.getSystemResourceAsStream("weatherSettings"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public String readFromURL(String city, String format) {
         String link = String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&mode=%s", city, format);
@@ -43,32 +63,8 @@ public class WeatherManager {
     }
 
     public void getWeather() {
+        ParserManager parserManager = new ParserManager(format);
         String data = readFromURL(city, format);
-        switchTypeOfParsing(data);
+        parserManager.switchTypeOfParsing(data);
     }
-
-    private void jsonParser(String jsonToString) {
-        Gson gson = new Gson();
-        WeatherData weatherData = gson.fromJson(jsonToString, WeatherData.class);
-        System.out.println(weatherData.toString());
-        //System.out.println(weatherData.toString());
-    }
-
-    private void xmlParser(String data) {
-        XStream xStream = new XStream();
-        xStream.alias("weather", WeatherData.class);
-        String xml = (String) xStream.fromXML(data);
-    }
-
-    private void switchTypeOfParsing(String data) {
-        switch (format) {
-            case "json":
-                jsonParser(data);
-                break;
-            case "xml":
-                xmlParser(data);
-
-        }
-    }
-
 }
