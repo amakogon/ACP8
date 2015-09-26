@@ -27,7 +27,7 @@ public class Gui {
         gui.go();
     }
 
-    public void go(){
+    public void go() {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -43,7 +43,7 @@ public class Gui {
             @Override
             public void run() {
                 try {
-                    TabbedPane tP = new TabbedPane();
+                    new TabbedPane();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -51,12 +51,12 @@ public class Gui {
         });
     }
 
-    private class TabbedPane{
+    private class TabbedPane {
         public TabbedPane() throws IOException {
-            //Dimension dimension = Toolkit.getDefaultToolkit().getSc;
+
             JFrame frame = new JFrame("DRINKS CASHIER");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(new Dimension(300,300));
+            frame.setSize(new Dimension(350, 340));
             frame.setResizable(false);
             frame.setLayout(new BorderLayout());
 
@@ -75,15 +75,14 @@ public class Gui {
             BufferedImage coffeePicture = ImageIO.read(ClassLoader.getSystemResource("coffeePicture.png"));
             Image coffeePictureScaledInstance = coffeePicture.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             JLabel coffeeLabel = new JLabel(new ImageIcon(coffeePictureScaledInstance));
-            coffePanel.add(coffeeLabel,BorderLayout.CENTER);
+            coffePanel.add(coffeeLabel, BorderLayout.CENTER);
 
             JPanel teaPanel = new JPanel();
             teaPanel.setName("tea");
             BufferedImage teaPicture = ImageIO.read(ClassLoader.getSystemResource("teaPicture.png"));
             Image teaPictureScaledInstance = teaPicture.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             JLabel teaLabel = new JLabel(new ImageIcon(teaPictureScaledInstance));
-            teaPanel.add(teaLabel,BorderLayout.CENTER);
-
+            teaPanel.add(teaLabel, BorderLayout.CENTER);
 
 
             tabbedPane.add("Coffee", coffePanel);
@@ -91,20 +90,21 @@ public class Gui {
             mainPanel.add(tabbedPane, BorderLayout.NORTH);
 
 
-
-
             JPanel toppingsPanel = new JPanel();
             toppingsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-            String[] toppings = {"Milk","Cinnamon","Cardamon","Clove","Anise","Mint"};
+            String[] toppings = {"Milk", "Cinnamon", "Cardamon", "Clove", "Anise", "Mint"};
 
 
             toppingsPanel.setLayout(new BoxLayout(toppingsPanel, BoxLayout.PAGE_AXIS));
             JLabel toppingsLabel = new JLabel("Toppings:");
+            toppingsPanel.add(toppingsLabel, BorderLayout.NORTH);
             toppingsLabel.setBorder(BorderFactory.createRaisedBevelBorder());
-            for(String name:toppings){
+            for (String name : toppings) {
                 toppingsPanel.add(newJcheckbox(name));
             }
 
+            JTextArea orderText = new JTextArea();
+            orderText.setLineWrap(true);
 
             ActionListener orderListener = new ActionListener() {
 
@@ -114,22 +114,25 @@ public class Gui {
                     Drink mainDrink = new DrinkFactory().getDrink(tabbedPane.getSelectedComponent().getName().toLowerCase());
                     Component[] toppingsPaneList = toppingsPanel.getComponents();
                     ArrayList<JCheckBox> toppingsList = new ArrayList<>();
-                    for(Component c:toppingsPaneList){
-                        if(c instanceof JCheckBox){
-                            toppingsList.add((JCheckBox)c);
+                    for (Component c : toppingsPaneList) {
+                        if (c instanceof JCheckBox) {
+                            toppingsList.add((JCheckBox) c);
                         }
                     }
                     ArrayList<JCheckBox> selectedToppingsList = new ArrayList<>();
-                    for(JCheckBox c:toppingsList){
+                    for (JCheckBox c : toppingsList) {
                         if (c.isSelected()) selectedToppingsList.add(c);
 
                     }
                     Drink readyDrink = mainDrink;
-                    for(JCheckBox c:selectedToppingsList){
-                         readyDrink=new ToppingFactory().getDrink(c.getName().toLowerCase(),readyDrink);
+                    for (JCheckBox c : selectedToppingsList) {
+                        readyDrink = new ToppingFactory().getDrink(c.getName().toLowerCase(), readyDrink);
 
                     }
-                    System.out.println(readyDrink.getDescription());
+
+                    orderText.setText("Your order: \n" + readyDrink.getDescription() + ". \nPrice is " + readyDrink.price() + " UAH.");
+                    orderText.repaint();
+
 
                 }
             };
@@ -140,15 +143,17 @@ public class Gui {
 
             //ADD TO FRAME
             frame.add(orderButton, BorderLayout.SOUTH);
+            mainPanel.add(orderText);
+
+
             frame.add(mainPanel, BorderLayout.CENTER);
             frame.add(toppingsPanel, BorderLayout.EAST);
-
 
 
             frame.setVisible(true);
         }
 
-        private JCheckBox newJcheckbox(String name){
+        private JCheckBox newJcheckbox(String name) {
             JCheckBox checkBox = new JCheckBox(name);
             checkBox.setName(name);
             return checkBox;

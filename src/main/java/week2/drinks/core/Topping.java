@@ -20,12 +20,12 @@ public abstract class Topping extends Drink {
 
     @Override
     public String getDescription() {
-        return drink.getDescription()+ " + "+description;
+        return drink.getDescription() + " + " + description;
     }
 
     @Override
     public double price() {
-        return drink.price()+priceList.getPrice(description.toLowerCase());
+        return drink.price() + priceList.getPrice(description.toLowerCase());
     }
 
     public abstract Drink newDrink(Drink d);

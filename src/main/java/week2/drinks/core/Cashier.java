@@ -15,6 +15,7 @@ import java.io.IOException;
  */
 public class Cashier {
     public static PriceList priceList;
+
     public static void main(String[] args) throws IOException {
 
         priceList = priceList.getPriceList();
@@ -23,9 +24,9 @@ public class Cashier {
         Drink coffeeWithMilk = new Milk(new Coffee());
         Drink coffeeWithMilkWinhCinnamon = new Cinnamon(new Milk(new Coffee()));
         Drink teaWithMilk = new Milk(new Tea());
-        System.out.println(coffee.getDescription()+" "+ coffee.price());
+        System.out.println(coffee.getDescription() + " " + coffee.price());
         System.out.println(coffeeWithMilk.getDescription() + " " + coffeeWithMilk.price());
-        System.out.println(coffeeWithMilkWinhCinnamon.getDescription()+ " " + coffeeWithMilkWinhCinnamon.price());
-        System.out.println(teaWithMilk.getDescription()+" "+teaWithMilk.price());
+        System.out.println(coffeeWithMilkWinhCinnamon.getDescription() + " " + coffeeWithMilkWinhCinnamon.price());
+        System.out.println(teaWithMilk.getDescription() + " " + teaWithMilk.price());
     }
 }

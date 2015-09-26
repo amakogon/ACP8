@@ -12,20 +12,20 @@ public abstract class Drink {
 
     private String description;
 
-    protected Drink(){}
+    protected Drink() {
+    }
 
-    public Drink(String description){
-        this.description=description;
+    public Drink(String description) {
+        this.description = description;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public double price(){
+    public double price() {
         return priceList.getPrice(description.toLowerCase());
-    };
-
+    }
 
 
 }
