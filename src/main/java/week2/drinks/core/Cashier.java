@@ -1,7 +1,5 @@
-package week2.drinks;
+package week2.drinks.core;
 
-import week2.drinks.core.Drink;
-import week2.drinks.core.PriceList;
 import week2.drinks.drinks.Tea;
 import week2.drinks.toppings.Cinnamon;
 import week2.drinks.drinks.Coffee;
@@ -15,7 +13,7 @@ import java.io.IOException;
  * ..\o/\ /---~\\ ~}}
  * ...._//    _// ~}
  */
-public class Cassier {
+public class Cashier {
     public static PriceList priceList;
     public static void main(String[] args) throws IOException {
 

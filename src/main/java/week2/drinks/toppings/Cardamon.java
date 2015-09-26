@@ -9,18 +9,15 @@ import week2.drinks.core.Topping;
  * ..\o/\ /---~\\ ~}}
  * ...._//    _// ~}
  */
-public class Milk extends Topping {
+public class Cardamon extends Topping {
 
-
-    public Milk(Drink drink) {
+    public Cardamon(Drink drink) {
         super(drink);
-        description = "milk";
+        description = "cardamon";
     }
 
     @Override
     public Drink newDrink(Drink d) {
-        return new Milk(d);
+        return new Cardamon(d);
     }
-
-
 }

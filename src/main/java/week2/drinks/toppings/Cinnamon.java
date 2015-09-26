@@ -16,4 +16,8 @@ public class Cinnamon extends Topping {
         description = "cinnamon";
     }
 
+    @Override
+    public Drink newDrink(Drink d) {
+        return new Cinnamon(d);
+    }
 }

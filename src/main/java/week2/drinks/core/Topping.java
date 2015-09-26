@@ -27,4 +27,6 @@ public abstract class Topping extends Drink {
     public double price() {
         return drink.price()+priceList.getPrice(description.toLowerCase());
     }
+
+    public abstract Drink newDrink(Drink d);
 }
