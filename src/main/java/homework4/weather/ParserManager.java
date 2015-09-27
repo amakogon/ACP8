@@ -24,7 +24,7 @@ public class ParserManager {
         XStream xStream = new XStream();
         xStream.alias("current", WeatherDataXml.class);
         xStream.alias("city",WeatherDataXml.City.class);
-        xStream.alias("temperature",WeatherDataXml.Temperature.class);
+        //xStream.alias("temperature",WeatherDataXml.Temperature.class);
         WeatherDataXml weatherData = (WeatherDataXml) xStream.fromXML(data);
         System.out.println(weatherData.toString());
     }

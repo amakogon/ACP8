@@ -3,6 +3,9 @@ package homework5.downloader;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,62 +21,66 @@ public class DownloadManager {
     }
 
     private InputStream readUrl() {
-        InputStream in = null;
+        InputStream inputStream = null;
         try {
-            //builder = new StringBuilder();
             URL url = new URL(link);
-            in = new BufferedInputStream(url.openStream());
-            //BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-//            while (reader.ready()) {
-//                builder.append(reader.readLine());
-//            }
-            in.close();
-            //reader.close();
-            //System.out.println(builder.toString());
+            URLConnection connection = url.openConnection();
+            inputStream = connection.getInputStream();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return in;
+        return inputStream;
     }
 
     public void download() {
         InputStream pageStream = readUrl();
-        System.out.println(pageStream.toString());
-        parsePage(pageStream);
+        ArrayList links=parsePage(pageStream);
+        //saveFiles(links);
     }
 
-    //    private void parsePage(String page){
-//        ArrayList <String> links =new ArrayList<>();
-//        final String load="href='/load/";
-//        String downloadAdress="";
-//        int startIndex;//=page.indexOf(load);
-//        for(int i=0;i<page.length();i++){
-//            startIndex=page.indexOf(load);
-//            downloadAdress=page.substring(startIndex + 12, startIndex + 20);
-//            System.out.println(downloadAdress);
-//        }
-//        System.out.println(downloadAdress);
-//    }
-    private void parsePage(InputStream pageStream) {
+    private void saveFiles(ArrayList links ) {
+        for(int i=0;i<links.size();i++){
+        try {
+            URL website = new URL("http://www.ex.ua/load/"+links.get(i));
+            ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+            FileOutputStream fos = new FileOutputStream("/Users/johnsmith/IdeaProjects/ACP8/src/main/resources/download"+i);
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    }
+
+    private ArrayList parsePage(InputStream pageStream) {
         ArrayList<String> links = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new InputStreamReader(pageStream));
-        //<a href='/load/196030649'
-        //"<a href=\'/get.+title=\'.+\'"
-        //<a href='/get/195197443' title='Who am I - Kein System ist sicher.
-        //"^<a href=\'/load/.+\'$"
         try {
             while (reader.ready()) {
-                Pattern pattern = Pattern.compile("href=");
+                Pattern pattern=Pattern.compile("<a href='/get.+title='.+'");
                 Matcher matcher = pattern.matcher(reader.readLine());
                 if (matcher.find()) {
+                    links.add(matcher.group());
                     System.out.println(matcher.group());
                 }
             }
+            for (int i = 0; i < links.size(); i++) {
+                int number = Integer.valueOf(links.get(i).replaceAll("[\\D]", ""));
+                String id=String.valueOf(number);
+                links.remove(i);
+                links.add(i,id);
+                //System.out.println(((String) number));
+            }
+            //System.out.println(links.toString());
         } catch (IOException e) {
             e.printStackTrace();
-
         }
+        return links;
     }
 }
