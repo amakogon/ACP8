@@ -1,20 +1,23 @@
 package homework5.downloader;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Razer on 25.09.15.
  */
 public class DownloadManager {
     private String link;
+    private final String  pathToSave="/Users/johnsmith/IdeaProjects/ACP8/src/main/resources/download";
 
     public DownloadManager(String link) {
         this.link = link;
@@ -35,52 +38,28 @@ public class DownloadManager {
     }
 
     public void download() {
+        ParserManager parserManager = new ParserManager();
         InputStream pageStream = readUrl();
-        ArrayList links=parsePage(pageStream);
-        //saveFiles(links);
+        HashMap<String,String> parsedLinks = parserManager.parsePage(pageStream);
+        saveFiles(parsedLinks);
     }
 
-    private void saveFiles(ArrayList links ) {
-        for(int i=0;i<links.size();i++){
-        try {
-            URL website = new URL("http://www.ex.ua/load/"+links.get(i));
-            ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-            FileOutputStream fos = new FileOutputStream("/Users/johnsmith/IdeaProjects/ACP8/src/main/resources/download"+i);
-            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+    private void saveFiles(HashMap<String,String> parsedLinks) {
+        for (Map.Entry<String, String> entry:parsedLinks.entrySet()){
+            try {
+                URL website = new URL(entry.getKey());
+                ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+                FileOutputStream fos = new FileOutputStream(pathToSave+entry.getValue());
+                fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+                System.out.println("Download "+entry.getValue());
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    }
-
-    private ArrayList parsePage(InputStream pageStream) {
-        ArrayList<String> links = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(pageStream));
-        try {
-            while (reader.ready()) {
-                Pattern pattern=Pattern.compile("<a href='/get.+title='.+'");
-                Matcher matcher = pattern.matcher(reader.readLine());
-                if (matcher.find()) {
-                    links.add(matcher.group());
-                    System.out.println(matcher.group());
-                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            for (int i = 0; i < links.size(); i++) {
-                int number = Integer.valueOf(links.get(i).replaceAll("[\\D]", ""));
-                String id=String.valueOf(number);
-                links.remove(i);
-                links.add(i,id);
-                //System.out.println(((String) number));
-            }
-            //System.out.println(links.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return links;
     }
 }

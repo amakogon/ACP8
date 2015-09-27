@@ -5,7 +5,7 @@ package homework5.downloader;
  */
 public class Start {
     public static void main(String[] args) {
-        DownloadManager downloadManager = new DownloadManager("http://www.ex.ua/94021641?r=2,23775");
+        DownloadManager downloadManager = new DownloadManager("http://www.ex.ua/94052894?r=38495888,23777");
         downloadManager.download();
     }
 }
