@@ -1,10 +1,16 @@
-2) Написать JUnit тесты для HashMap или BTree
-3) Написать приложение для продажи Напитков (не используя декоратор)
-   3.3* прикрутить визуальный интерсфейс на Swing
+1) Написать JUnit тесты для HashMap или BTree
+2) Написать приложение для продажи Напитков
    3.4 Юнит тесты
-
-
-Дополнительно:
-4) Написать приложение для отображения погоды(текущая, прогнозы и т.д)
+3) Написать приложение для отображения погоды(текущая, прогнозы и т.д)
 
    Написать юнит тесты.
+
+4. Write synchronous chat between two machines (use ServerSocket and Socket)
+
+5. Using Producer-Consumer pattern implement mechanism that will put candy into the Box if it's empty.
+   Consumer look at the box only if he knows, that box not empty.
+   Use wait and notify methods from Object.
+
+6*. Try to implement asynchronous chat that allows communication with two and more users
+
+7. install postgreSQL database
