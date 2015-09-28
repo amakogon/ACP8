@@ -1,4 +1,4 @@
-package week5.week5.producer_consumer;
+package week5.producer_consumer;
 
 /**
  * .|\_/|,,_____,~~`
@@ -7,7 +7,7 @@ package week5.week5.producer_consumer;
  * ...._//    _// ~}
  */
 public class ProducerConsumer {
-    
+
     private static final Object lock = new Object();
     private static int box = 0;
     private static int items = 100;
