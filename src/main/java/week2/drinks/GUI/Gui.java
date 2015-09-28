@@ -56,7 +56,7 @@ public class Gui {
 
             JFrame frame = new JFrame("DRINKS CASHIER");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(new Dimension(350, 340));
+            frame.setSize(new Dimension(350, 380));
             frame.setResizable(false);
             frame.setLayout(new BorderLayout());
 

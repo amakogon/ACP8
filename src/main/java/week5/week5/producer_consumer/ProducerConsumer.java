@@ -7,7 +7,7 @@ package week5.week5.producer_consumer;
  * ...._//    _// ~}
  */
 public class ProducerConsumer {
-    
+
     private static final Object lock = new Object();
     private static int box = 0;
     private static int items = 100;
@@ -43,7 +43,7 @@ public class ProducerConsumer {
                         lock.notifyAll();
                         items--;
                         box--;
-                        System.out.println("Box status is = "+(box==0?"empty":"full"));
+                        System.out.println("Box status is "+(box==0?"empty":"full"));
                         System.out.println("Items count = "+ items);
                         if(items==0&&box==0){
                             producer.interrupt();
