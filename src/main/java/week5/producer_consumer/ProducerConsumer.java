@@ -43,7 +43,7 @@ public class ProducerConsumer {
                         lock.notifyAll();
                         items--;
                         box--;
-                        System.out.println("Box status is = "+(box==0?"empty":"full"));
+                        System.out.println("Box status is "+(box==0?"empty":"full"));
                         System.out.println("Items count = "+ items);
                         if(items==0&&box==0){
                             producer.interrupt();
