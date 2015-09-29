@@ -1,5 +1,8 @@
 package week5.producer_consumer;
 
+//read this
+//https://docs.oracle.com/javase/tutorial/essential/concurrency/deadlock.html
+
 /**
  * .|\_/|,,_____,~~`
  * .(.".)~~     )`~}} Created by Juff
