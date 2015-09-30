@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class DownloadManager {
     private String link;
-    private final String  pathToSave="/Users/johnsmith/IdeaProjects/ACP8/src/main/resources/download";
+    private final String  pathToSave="/Users/johnsmith/IdeaProjects/ACP8/src/main/resources/download/";
 
     public DownloadManager(String link) {
         this.link = link;

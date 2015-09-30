@@ -57,13 +57,13 @@ public class WeatherDataXml {
 
     static class Temperature {
 
-        private double min;
+        double min;
 
-        private double unit;
+        double unit;
 
-        private double max;
+        double max;
 
-        private String value;
+        String value;
 
 
         @Override
