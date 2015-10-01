@@ -1,0 +1,5 @@
+user=postgres
+password=P@ssw0rd
+serverName = localhost
+databaseName = ArtCode
+portNumber=5432
