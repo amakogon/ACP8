@@ -5,7 +5,22 @@ package homework.homework5.chat;
  */
 public class TestChat {
     public static void main(String[] args) {
-        ChatServer chatServer = new ChatServer();
-        chatServer.go();
+
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ChatServer chatServer = new ChatServer();
+                chatServer.go();
+            }
+        });
+        thread1.start();
+
+        Thread thread2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ChatClient client1 = new ChatClient();
+            }
+        });
+        thread2.start();
     }
 }

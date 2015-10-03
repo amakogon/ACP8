@@ -22,7 +22,7 @@ public class ChatServer {
                 Socket clientSock = serverSocket.accept();
                 PrintWriter writer = new PrintWriter(clientSock.getOutputStream());
                 clientsWriters.add(writer);
-                writer.println("Enter your name:");
+                writer.println("Hello from server!");
                 Thread clientThread = new Thread(new ReadTask(clientSock));
                 clientThread.start();
             }
@@ -41,7 +41,7 @@ public class ChatServer {
             this.clientSock = clientSock;
         }
 
-        public void read() {
+        public void readFromClient() {
             try {
                 reader = new BufferedReader(new InputStreamReader(clientSock.getInputStream()));
                 while (true) {
@@ -57,7 +57,7 @@ public class ChatServer {
 
         @Override
         public void run() {
-            read();
+            readFromClient();
         }
     }
 
