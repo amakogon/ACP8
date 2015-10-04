@@ -111,6 +111,7 @@ public class Gui {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    System.out.println("I Love U!");
                     Drink mainDrink = new DrinkFactory().getDrink(tabbedPane.getSelectedComponent().getName().toLowerCase());
                     Component[] toppingsPaneList = toppingsPanel.getComponents();
                     ArrayList<JCheckBox> toppingsList = new ArrayList<>();

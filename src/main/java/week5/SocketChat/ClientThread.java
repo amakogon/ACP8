@@ -24,7 +24,7 @@ public class ClientThread extends Thread {
             try {
                 acceptedSocket = serverSocket.accept();
                 PrintWriter writer = new PrintWriter(acceptedSocket.getOutputStream());
-                writer.write("Enter your nickname!\n");
+                writer.write("Enter your nickname!\n\r");
                 writer.flush();
                 InputStream is = acceptedSocket.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
@@ -34,19 +34,20 @@ public class ClientThread extends Thread {
 
 
                 for (String m : Server.messagesList) {
-                    writer.write(m + "\n");
+                    writer.write(m + "\n\r");
                     writer.flush();
                 }
                 Server.sendAll(prompt);
                 System.out.println(prompt);
                 Server.messagesList.add(prompt);
 
-                new Thread(){
-                    String msg="";
+                new Thread() {
+                    String msg = "";
+
                     @Override
 
                     public void run() {
-                        while (!msg.equals("exit")){
+                        while (!msg.equals("exit")) {
                             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
 
                             try {
@@ -54,20 +55,17 @@ public class ClientThread extends Thread {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            System.out.println("["+name+"]" + ": " + msg);
-                            Server.messagesList.add("["+name+"]" + ": " + msg);
+                            System.out.println("[" + name + "]" + ": " + msg);
+                            Server.messagesList.add("[" + name + "]" + ": " + msg);
                             try {
-                                Server.sendAll("["+name+"]" + ": " + msg);
+                                Server.sendAll("[" + name + "]" + ": " + msg);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
+
                     }
                 }.start();
-
-
-
-
 
 
             } catch (IOException e) {

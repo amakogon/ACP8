@@ -11,10 +11,9 @@ import java.util.Collection;
  * ...._//    _// ~}
  */
 public class AllWriter extends Thread {
-    private Collection<Socket> sockets;
 
     public AllWriter(Collection<Socket> sockets) {
-        this.sockets = sockets;
+        Collection<Socket> sockets1 = sockets;
     }
 
     @Override
@@ -24,9 +23,9 @@ public class AllWriter extends Thread {
             while (!isInterrupted()) {
 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-                String s = bufferedReader.readLine()+"\n";
-                Server.sendAll("[Server]: "+s);
-                System.out.println("[Server]: "+s);
+                String s = bufferedReader.readLine() + "\n\r";
+                Server.sendAll("[Server]: " + s);
+                System.out.println("[Server]: " + s);
 
 
             }

@@ -34,9 +34,9 @@ public class Server {
     }
 
     public static void sendAll(String msg) throws IOException {
-        for(Socket s:users.values()){
+        for (Socket s : users.values()) {
             PrintWriter printWriter = new PrintWriter(s.getOutputStream());
-            printWriter.write(msg +"\n");
+            printWriter.write(msg + "\n\r");
             printWriter.flush();
         }
     }
