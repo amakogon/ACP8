@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class Ex1 {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
-        java.sql.Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/postgres", "postgres","newPassword");
+        java.sql.Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Univer", "postgres","newPassword");
 
     }
 }

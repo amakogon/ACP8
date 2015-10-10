@@ -1,7 +1,9 @@
 package week5.SocketChat;
 
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Collection;
 
 /**
@@ -21,11 +23,15 @@ public class AllWriter extends Thread {
         try {
 
             while (!isInterrupted()) {
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+                    String s = bufferedReader.readLine() + "\n\r";
+                    Server.sendAll("[Server]: " + s);
+                    System.out.println("[Server]: " + s);
+                }catch (SocketException e){
 
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-                String s = bufferedReader.readLine() + "\n\r";
-                Server.sendAll("[Server]: " + s);
-                System.out.println("[Server]: " + s);
+                }
+
 
 
             }

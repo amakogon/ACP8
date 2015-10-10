@@ -47,11 +47,18 @@ public class ClientThread extends Thread {
                     @Override
 
                     public void run() {
-                        while (!msg.equals("exit")) {
+                        while (true) {
                             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
 
                             try {
                                 msg = bufferedReader.readLine();
+                                if (msg.equals("exit")) {
+                                    msg = "[" + name + "]" + ": " + "leave the chat...";
+                                    Server.messagesList.add(msg);
+                                    Server.sendAll(msg);
+                                    acceptedSocket.close();
+                                    break;
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -63,6 +70,7 @@ public class ClientThread extends Thread {
                                 e.printStackTrace();
                             }
                         }
+
 
                     }
                 }.start();

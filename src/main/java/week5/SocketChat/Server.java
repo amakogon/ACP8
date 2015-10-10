@@ -3,6 +3,7 @@ package week5.SocketChat;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,9 +36,15 @@ public class Server {
 
     public static void sendAll(String msg) throws IOException {
         for (Socket s : users.values()) {
-            PrintWriter printWriter = new PrintWriter(s.getOutputStream());
-            printWriter.write(msg + "\n\r");
-            printWriter.flush();
+            try {
+                PrintWriter printWriter = new PrintWriter(s.getOutputStream());
+                printWriter.write(msg + "\n\r");
+                printWriter.flush();
+                System.out.println(msg + "\n\r");
+            } catch (SocketException e){
+
+            }
+
         }
     }
 
