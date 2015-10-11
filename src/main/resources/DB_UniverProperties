@@ -1,0 +1,5 @@
+user=postgres
+password=12345678
+serverName = localhost
+databaseName = univer
+port=5432
