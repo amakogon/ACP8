@@ -13,6 +13,8 @@
     <guava.version>19.0-rc1</guava.version>
     <xstream.version>1.4.8</xstream.version>
     <gson.version>2.3.1</gson.version>
+    <postgresql.version>9.1-901-1.jdbc4</postgresql.version>
+    <hibernate-core.version>4.3.10.Final</hibernate-core.version>
   </properties>
 
   <dependencies>
@@ -48,6 +50,11 @@
       <version>${postgresql.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>${hibernate-core.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
