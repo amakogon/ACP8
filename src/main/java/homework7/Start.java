@@ -8,6 +8,6 @@ public class Start {
         QueryBuilder queryBuilder = new QueryBuilder();
         //System.out.println(queryBuilder.showStudentByGroup(83));
         //System.out.println(queryBuilder.addStudent(12,"Nika",83));
-        System.out.println(queryBuilder.showStudent());
+        System.out.println(queryBuilder.showStudentGroup());
     }
 }

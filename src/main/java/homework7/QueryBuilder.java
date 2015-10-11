@@ -11,10 +11,10 @@ import java.util.Map;
  * Created by Razer on 11.10.15.
  */
 ////Используя jdbc необходимо:
-//-получить список всех студентовб группб предметов и преподов
+//-получить список всех студентовб группб предметов и преподов +
 //        -добавить сутдента, группу, предмет, препода
 //        -обновить информацию о сущностях бд (например студент изменил группу или препода уволили)
-//        -получить список студентов определенной группы
+//        -получить список студентов определенной группы  +
 //        -узнать какие группы изучают математику
 //        -узнать какие предметы узучают все группы (если хотя бы одна не изучает, то предмет не входит в выборку)
 //        -какие преподаватель имеют наименьший и наибольший опыт?
@@ -23,10 +23,10 @@ import java.util.Map;
 //        -узнать средний бал студентов по физике (всех и определенной группы)
 //        -показать группу, в которой более 3-х студентов изучают философию (и выгнать с универа)
 public class QueryBuilder {
-    Map<String, String> query = new HashMap<>();
-    StringBuilder builder = new StringBuilder();
-    PreparedStatement preparedStatement;
-    Connection connection;
+    private Map<String, String> query = new HashMap<>();
+    private StringBuilder builder = new StringBuilder();
+    private PreparedStatement preparedStatement;
+    private Connection connection;
 
     public QueryBuilder() {
         addAllQuery();
@@ -43,17 +43,14 @@ public class QueryBuilder {
 
     private void addAllQuery() {
         query.put("showStudent", "Select * from student");
+        query.put("showTeacher", "Select * from teacher");
+        query.put("showSubject", "Select * from subject");
+        query.put("showStudentGroup", "Select * from studentgroup");
         query.put("showStudentByGroup", "Select * from student where group_id=?");
         query.put("addStudent", "Insert into Student(student_id,student_name,group_id) Values(?,?,?) ");
+        query.put("addGroup", "Insert into Student(student_id,student_name,group_id) Values(?,?,?) ");
+        query.put("addSubject", "Insert into Student(student_id,student_name,group_id) Values(?,?,?) ");
         query.put("select", "");
-    }
-
-    private final String ADD_GROUP = "Insert into Group";
-    private final String ADD_SUBJECT = "Insert into Subject";
-    private final String ADD_TEACHER = "Insert into Teacher";
-
-    public String show(String name) {
-        return query.get("show") + name;
     }
 
     public String addStudent(int student_id, String student_name, int group_id) {
@@ -89,7 +86,49 @@ public class QueryBuilder {
             preparedStatement = connection.prepareStatement(query.get("showStudent"));
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                builder.append(String.format("id=%d, student_name=%s,group_id=%s", resultSet.getInt(1), resultSet.getString(2),resultSet.getString(3)));
+                builder.append(String.format("id=%d, student name=%s, group_id=%s", resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
+                builder.append("\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return builder.toString();
+    }
+
+    public String showStudentGroup() {
+        try {
+            preparedStatement = connection.prepareStatement(query.get("showStudentGroup"));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                builder.append(String.format("group id=%d, group name=%s, description=%s", resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
+                builder.append("\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return builder.toString();
+    }
+
+    public String showTeacher() {
+        try {
+            preparedStatement = connection.prepareStatement(query.get("showTeacher"));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                builder.append(String.format("id=%d, teacher name=%s, subject id=%s, experience=%s", resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4)));
+                builder.append("\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return builder.toString();
+    }
+
+    public String showSubject() {
+        try {
+            preparedStatement = connection.prepareStatement(query.get("showSubject"));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                builder.append(String.format("id=%d, subject name=%s, description=%s", resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
                 builder.append("\n");
             }
         } catch (SQLException e) {
