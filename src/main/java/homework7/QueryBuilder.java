@@ -52,7 +52,7 @@ public class QueryBuilder {
         query.put("showSubject", "Select * from subject");
         query.put("showStudentGroup", "Select * from studentgroup");
         query.put("deleteTeacher","");
-        query.put("showWhoLearnMath","");
+        query.put("showWhoLearnMath","select student_name,group_id from student where group_id=?");
         query.put("updateStudentGroup","update student set group_id =? where student_id =?");
         query.put("showStudentByGroup", "Select student_name,group_id from student where group_id=?");
         query.put("select", "");
@@ -170,6 +170,21 @@ public class QueryBuilder {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 builder.append(String.format("group id=%d, group name=%s, description=%s", resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
+                builder.append("\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return builder.toString();
+    }
+
+    public String showGroupWhoLearnMath(int group_id) {
+        try {
+            preparedStatement = connection.prepareStatement(query.get("showWhoLearnMath"));
+            preparedStatement.setInt(1,group_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                builder.append(String.format("student name=%s, group_id=%d", resultSet.getString(1), resultSet.getInt(2)));
                 builder.append("\n");
             }
         } catch (SQLException e) {
