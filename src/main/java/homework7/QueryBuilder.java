@@ -12,8 +12,8 @@ import java.util.Map;
  */
 ////Используя jdbc необходимо:
 //-получить список всех студентовб группб предметов и преподов +
-//        -добавить сутдента, группу, предмет, препода
-//        -обновить информацию о сущностях бд (например студент изменил группу или препода уволили)
+//        -добавить сутдента, группу, предмет, препода +
+//        -обновить информацию о сущностях бд (например студент изменил группу или препода уволили) +-!!
 //        -получить список студентов определенной группы  +
 //        -узнать какие группы изучают математику
 //        -узнать какие предметы узучают все группы (если хотя бы одна не изучает, то предмет не входит в выборку)
@@ -42,14 +42,19 @@ public class QueryBuilder {
     }
 
     private void addAllQuery() {
+        query.put("addStudent", "Insert into Student(student_id,student_name,group_id) Values(?,?,?) ");
+        query.put("addGroup", "Insert into StudentGroup(group_id,group_name,description) Values(?,?,?) ");
+        query.put("addSubject", "Insert into Subject(subject_id,subject_name,description) Values(?,?,?) ");
+        query.put("addTeacher", "Insert into Teacher(teacher_id,teacher_name,subject_id,experience) Values(?,?,?,?) ");
+        query.put("addGroupLearning","Insert into group_learning(group_id,subject_id) values (?,?)");
         query.put("showStudent", "Select * from student");
         query.put("showTeacher", "Select * from teacher");
         query.put("showSubject", "Select * from subject");
         query.put("showStudentGroup", "Select * from studentgroup");
-        query.put("showStudentByGroup", "Select * from student where group_id=?");
-        query.put("addStudent", "Insert into Student(student_id,student_name,group_id) Values(?,?,?) ");
-        query.put("addGroup", "Insert into Student(student_id,student_name,group_id) Values(?,?,?) ");
-        query.put("addSubject", "Insert into Student(student_id,student_name,group_id) Values(?,?,?) ");
+        query.put("deleteTeacher","");
+        query.put("showWhoLearnMath","");
+        query.put("updateStudentGroup","update student set group_id =? where student_id =?");
+        query.put("showStudentByGroup", "Select student_name,group_id from student where group_id=?");
         query.put("select", "");
     }
 
@@ -59,6 +64,70 @@ public class QueryBuilder {
             preparedStatement.setInt(1, student_id);
             preparedStatement.setString(2, student_name);
             preparedStatement.setInt(3, group_id);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "Query returned successfully";
+    }
+
+    public String addGroup(int group_id, String group_name, String description) {
+        try {
+            preparedStatement = connection.prepareStatement(query.get("addGroup"));
+            preparedStatement.setInt(1, group_id);
+            preparedStatement.setString(2, group_name);
+            preparedStatement.setString(3, description);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "Query returned successfully";
+    }
+
+    public String addSubject(int subject_id, String subject_name, String description) {
+        try {
+            preparedStatement = connection.prepareStatement(query.get("addSubject"));
+            preparedStatement.setInt(1, subject_id);
+            preparedStatement.setString(2, subject_name);
+            preparedStatement.setString(3, description);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "Query returned successfully";
+    }
+
+    public String addTeacher(int teacher_id, String teacher_name,int subject_id, int experience) {
+        try {
+            preparedStatement = connection.prepareStatement(query.get("addTeacher"));
+            preparedStatement.setInt(1, teacher_id);
+            preparedStatement.setString(2, teacher_name);
+            preparedStatement.setInt(3, subject_id);
+            preparedStatement.setInt(4,experience);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "Query returned successfully";
+    }
+
+    public String addGroupLearning(int group_id, int subject_id) {
+        try {
+            preparedStatement = connection.prepareStatement(query.get("addGroupLearning"));
+            preparedStatement.setInt(1, group_id);
+            preparedStatement.setInt(2,subject_id);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "Query returned successfully";
+    }
+
+    public String updateStudentGroup(int newGroup_id,int student_id){
+        try {
+            preparedStatement=connection.prepareStatement(query.get("updateStudentGroup"));
+            preparedStatement.setInt(1,newGroup_id);
+            preparedStatement.setInt(2,student_id);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
