@@ -64,7 +64,7 @@ Read more: Beatles - Yesterday Lyrics | MetroLyrics "/>
   </bean>
 
   <bean class="week8.day2.Circle" name="circle">
-    <property name="radius" value="2"/>
+    <property name="radius" value="#{ T(java.lang.Math).random() * 100.0 }"/>
     <!--<property name="center" ref="pointA"/>-->
   </bean>
 
@@ -75,9 +75,42 @@ Read more: Beatles - Yesterday Lyrics | MetroLyrics "/>
 
   <bean class="week8.day2.Point" name="pointB">
     <property name="x" value="4"/>
-    <property name="y" value="2"/>
+    <property name="y" value="#{rand.nextInt(10)}"/>
   </bean>
+
+  <bean class="java.util.Random" name="rand"/>
 
   <context:annotation-config/>
   <!--<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>-->
+  <bean class="week8.day2.Company" name="company">
+    <property name="name" value="Google"/>
+    <!--<property name="phoneNumber" ref="googlePhoneNumber"/>-->
+    <!--<property name="address" ref="googleAddress"/>-->
+    <property name="employeeList">
+      <list>
+        <ref bean="petro"/>
+        <ref bean="vasia"/>
+      </list>
+    </property>
+  </bean>
+<!--  <bean id="googlePhoneNumber" class="week8.day2.PhoneNumber">
+    <property name="number" value="0931234567"/>
+  </bean>-->
+
+  <bean id="googleAddress" class="week8.day2.Address">
+    <property name="city" value="Kiev"/>
+    <property name="street" value="Sadova"/>
+  </bean>
+
+  <bean class="week8.day2.Employee" name="petro">
+    <property name="name" value="Petro"/>
+  </bean>
+
+  <bean class="week8.day2.Employee" name="vasia">
+    <property name="name" value="Vasia"/>
+  </bean>
+
+  <bean class="week8.di.Box$Ball" name="uniqueBall" scope="prototype">
+    <property name="color" value="Gold"/>
+  </bean>
 </beans>

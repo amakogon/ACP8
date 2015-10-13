@@ -7,7 +7,7 @@ public class Circle {
   @Autowired(required = false)
   @Qualifier(value = "pointA")
   private Point center;
-  private double radius;
+  private int radius;
 
   public Point getCenter() {
     return center;
@@ -21,7 +21,7 @@ public class Circle {
     return radius;
   }
 
-  public void setRadius(double radius) {
+  public void setRadius(int radius) {
     this.radius = radius;
   }
 
