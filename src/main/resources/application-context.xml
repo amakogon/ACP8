@@ -28,7 +28,7 @@ Read more: Beatles - Yesterday Lyrics | MetroLyrics "/>
   </bean>
 
   <bean class="week8.di.Singer" name="Carl">
-    <property name="song" ref=""/>
+    <property name="song" value="#{Jim.song}"/>
   </bean>
 
 </beans>
