@@ -3,4 +3,30 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+  <bean class="week8.di.Person" name="bob">
+    <!--<property name="name" value="Bob"/>-->
+    <constructor-arg name="name" value="bob"/>
+  </bean>
+
+  <bean class="week8.di.Person" name="frenk">
+    <property name="name" value="frenk"/>
+    <property name="friend" ref="bob"/>
+  </bean>
+
+  <bean class="week8.di.Song" name="yesterday">
+    <property name="text" value="Yesterday, all my troubles seemed so far away
+Now it looks as though they're here to stay
+oh, I believe in yesterday
+
+Read more: Beatles - Yesterday Lyrics | MetroLyrics "/>
+  </bean>
+
+  <bean class="week8.di.Singer" name="Jim">
+    <property name="song" ref="yesterday"/>
+  </bean>
+
+  <bean class="week8.di.Singer" name="Carl">
+    <property name="song" ref=""/>
+  </bean>
+
 </beans>
