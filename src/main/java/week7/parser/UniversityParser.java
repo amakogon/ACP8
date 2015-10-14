@@ -24,9 +24,6 @@ public class UniversityParser {
         int id = Integer.parseInt(subjectString[0]);
         String name = subjectString[1];
         String description = subjectString[2];
-   /*     System.out.println(id);
-        System.out.println(name);
-        System.out.println(description);*/
         return new Subject(id,name,description);
     }
 

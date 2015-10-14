@@ -1,13 +1,11 @@
-package week7.dao;
+package week7.dao.universityDao;
 
 import week7.model.Group;
 import week7.model.Student;
 import week7.model.Subject;
 import week7.model.Teacher;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * .|\_/|,,_____,~~`
@@ -43,6 +41,15 @@ public class UniversityDAOImpl implements IUniversityDAO {
 
     @Override
     public void addSutdent(Student student) throws SQLException {
-        statement.executeUpdate("INSERT INTO student (student_id,studetnt_name,group_id) VALUES" + student.toQuery());
+        statement.executeUpdate("INSERT INTO student (student_id,student_name,group_id) VALUES" + student.toQuery());
     }
+
+    public void showAllStudents() throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()){
+            System.out.println(resultSet.getInt("student_id")+ " " + resultSet.getString("student_name"));
+        }
+    }
+
 }
