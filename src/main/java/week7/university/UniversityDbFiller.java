@@ -1,6 +1,6 @@
 package week7.university;
 
-import week7.dao.universityDao.UniversityDAOImpl;
+import week7.dao.universityDao.*;
 import week7.parser.UniversityParser;
 
 import java.io.BufferedReader;
@@ -107,14 +107,20 @@ public class UniversityDbFiller {
 
     public void fillTables() throws SQLException, IOException {
 
-        UniversityDAOImpl dao = new UniversityDAOImpl(connection);
+
+        DAO groupDAO   = new GroupDAO(connection);
+        DAO studentDAO = new StudentDAO(connection);
+        DAO subjectDAO = new SubjectDAO(connection);
+        DAO teacherDAO = new TeacherDAO(connection);
+
+
         BufferedReader bufferedReader = null;
         //Groups
         URL groupsURL = ClassLoader.getSystemResource("university/groups.unv");
         bufferedReader = new BufferedReader(new InputStreamReader(groupsURL.openStream()));
         while (bufferedReader.ready()) {
             UniversityParser universityParser = new UniversityParser(bufferedReader.readLine());
-            dao.addGroup(universityParser.createGroup());
+            groupDAO.add(universityParser.createGroup());
         }
         bufferedReader.close();
 
@@ -123,7 +129,7 @@ public class UniversityDbFiller {
         bufferedReader = new BufferedReader(new InputStreamReader(studentsURL.openStream()));
         while (bufferedReader.ready()) {
             UniversityParser universityParser = new UniversityParser(bufferedReader.readLine());
-            dao.addSutdent(universityParser.createStudent());
+            studentDAO.add(universityParser.createStudent());
         }
         bufferedReader.close();
 
@@ -133,7 +139,7 @@ public class UniversityDbFiller {
         bufferedReader = new BufferedReader(new InputStreamReader(subjectsURL.openStream()));
         while (bufferedReader.ready()) {
             UniversityParser universityParser = new UniversityParser(bufferedReader.readLine());
-            dao.addSubject(universityParser.createSubject());
+            subjectDAO.add(universityParser.createSubject());
         }
         bufferedReader.close();
 
@@ -142,7 +148,8 @@ public class UniversityDbFiller {
         bufferedReader = new BufferedReader(new InputStreamReader(teachersURL.openStream()));
         while (bufferedReader.ready()) {
             UniversityParser universityParser = new UniversityParser(bufferedReader.readLine());
-            dao.addTeacher(universityParser.createTeacher());
+            teacherDAO.add(universityParser.createTeacher());
+
         }
         bufferedReader.close();
     }
