@@ -11,11 +11,11 @@ import week7.model.Teacher;
  * ..\o/\ /---~\\ ~}}
  * ...._//    _// ~}
  */
-public class UniversityParser {
+public class UniversityFactoryParser {
 
     private String input;
 
-    public UniversityParser(String input) {
+    public UniversityFactoryParser(String input) {
         this.input = input;
     }
 

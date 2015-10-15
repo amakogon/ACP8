@@ -1,5 +1,6 @@
 package week7.dao.universityDao;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -11,9 +12,10 @@ import java.sql.SQLException;
 public interface IDAO {
 
     public void add (Object o) throws SQLException;
-    public void remove (Object o);
-    public void showAll();
-    public void update(Object o);
+    public void remove (int i) throws SQLException;
+    public ResultSet getAll() throws SQLException;
+    public void update(int id, Object o) throws SQLException;
+    public void printAll() throws SQLException;
 
 
 

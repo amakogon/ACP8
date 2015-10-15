@@ -12,7 +12,7 @@ import java.sql.Statement;
  */
 public abstract class DAO implements IDAO{
 
-    private Connection connection;
+    protected Connection connection;
     protected Statement statement;
 
     public DAO(Connection connection) throws SQLException {

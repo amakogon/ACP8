@@ -1,7 +1,7 @@
 package week7.university;
 
 import week7.dao.universityDao.*;
-import week7.parser.UniversityParser;
+import week7.parser.UniversityFactoryParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -119,8 +119,8 @@ public class UniversityDbFiller {
         URL groupsURL = ClassLoader.getSystemResource("university/groups.unv");
         bufferedReader = new BufferedReader(new InputStreamReader(groupsURL.openStream()));
         while (bufferedReader.ready()) {
-            UniversityParser universityParser = new UniversityParser(bufferedReader.readLine());
-            groupDAO.add(universityParser.createGroup());
+            UniversityFactoryParser factory = new UniversityFactoryParser(bufferedReader.readLine());
+            groupDAO.add(factory.createGroup());
         }
         bufferedReader.close();
 
@@ -128,8 +128,8 @@ public class UniversityDbFiller {
         URL studentsURL = ClassLoader.getSystemResource("university/students.unv");
         bufferedReader = new BufferedReader(new InputStreamReader(studentsURL.openStream()));
         while (bufferedReader.ready()) {
-            UniversityParser universityParser = new UniversityParser(bufferedReader.readLine());
-            studentDAO.add(universityParser.createStudent());
+            UniversityFactoryParser factory = new UniversityFactoryParser(bufferedReader.readLine());
+            studentDAO.add(factory.createStudent());
         }
         bufferedReader.close();
 
@@ -138,8 +138,8 @@ public class UniversityDbFiller {
         URL subjectsURL = ClassLoader.getSystemResource("university/subjects.unv");
         bufferedReader = new BufferedReader(new InputStreamReader(subjectsURL.openStream()));
         while (bufferedReader.ready()) {
-            UniversityParser universityParser = new UniversityParser(bufferedReader.readLine());
-            subjectDAO.add(universityParser.createSubject());
+            UniversityFactoryParser factory = new UniversityFactoryParser(bufferedReader.readLine());
+            subjectDAO.add(factory.createSubject());
         }
         bufferedReader.close();
 
@@ -147,8 +147,8 @@ public class UniversityDbFiller {
         URL teachersURL = ClassLoader.getSystemResource("university/teachers.unv");
         bufferedReader = new BufferedReader(new InputStreamReader(teachersURL.openStream()));
         while (bufferedReader.ready()) {
-            UniversityParser universityParser = new UniversityParser(bufferedReader.readLine());
-            teacherDAO.add(universityParser.createTeacher());
+            UniversityFactoryParser factory = new UniversityFactoryParser(bufferedReader.readLine());
+            teacherDAO.add(factory.createTeacher());
 
         }
         bufferedReader.close();

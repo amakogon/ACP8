@@ -4,6 +4,7 @@ import week7.model.Group;
 import week7.model.Student;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -28,17 +29,25 @@ public class GroupDAO extends DAO implements IDAO {
     }
 
     @Override
-    public void remove(Object o) {
+    public void remove(int id) {
 
     }
 
     @Override
-    public void showAll() {
-
+    public ResultSet getAll() {
+        return null;
     }
 
     @Override
-    public void update(Object o) {
+    public void update(int id, Object o) {
 
     }
+
+
+    @Override
+    public void printAll() {
+
+    }
+
+
 }

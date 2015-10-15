@@ -17,8 +17,37 @@ public class Student implements DBQueryble {
         this.groupId = groupId;
     }
 
+    public Student(String name, int groupId) {
+        this.name = name;
+        this.groupId = groupId;
+    }
+
     @Override
     public String toQuery() {
         return "("+this.id+","+"'"+this.name+"'"+","+this.groupId+")";
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
     }
 }

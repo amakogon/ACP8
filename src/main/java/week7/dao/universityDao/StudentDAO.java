@@ -2,9 +2,7 @@ package week7.dao.universityDao;
 
 import week7.model.Student;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * .|\_/|,,_____,~~`
@@ -28,17 +26,46 @@ public class StudentDAO extends DAO implements IDAO {
     }
 
     @Override
-    public void remove(Object o) {
+    public void remove(int id) throws SQLException {
+
+        PreparedStatement preparedStatement = null;
+        preparedStatement=connection.prepareStatement("DELETE FROM student WHERE student_id = ?");
+        preparedStatement.setInt(1, id);
+        preparedStatement.execute();
+    }
+
+    @Override
+    public ResultSet getAll() throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM student");
+        return resultSet;
+    }
+
+    @Override
+    public void update(int id, Object o) throws SQLException {
+
+        Student student = null;
+        if (o instanceof Student){
+            student=(Student)o;
+        }
+
+        PreparedStatement preparedStatement = null;
+        preparedStatement=connection.prepareStatement("UPDATE student SET student_name = ? WHERE student_id = ?");
+        preparedStatement.setString(1,student.getName());
+        preparedStatement.setInt(2, student.getId());
+        preparedStatement.execute();
+
+        preparedStatement=connection.prepareStatement("UPDATE student SET group_id = ? WHERE student_id = ?");
+        preparedStatement.setInt(1,student.getGroupId());
+        preparedStatement.setInt(2,student.getId());
+        preparedStatement.executeUpdate();
 
     }
 
     @Override
-    public void showAll() {
-
-    }
-
-    @Override
-    public void update(Object o) {
-
+    public void printAll() throws SQLException {
+        ResultSet rs = new StudentDAO(connection).getAll();
+        while (rs.next()){
+            System.out.println(rs.getString("student_name"));
+        }
     }
 }

@@ -131,7 +131,7 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
         return size() == 0;
     }
 
-    //Generate array with splitters to print method
+    //Generate array with splitters to printAll method
     private String[] getOutTabArray() {
         int stages = getStages();
         int[] tabArray = new int[stages];
@@ -217,7 +217,7 @@ public class BTreeImpl<E extends Comparable<E>> implements IBTree<E> {
         return totalArrayList;
     }
 
-    //Recursion print method (w/o iterator simple print)
+    //Recursion printAll method (w/o iterator simple printAll)
     private void recPrint(Node<E> currentNode) {
         if (currentNode == null) return;
         System.out.println(currentNode.element);

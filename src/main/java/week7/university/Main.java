@@ -1,6 +1,13 @@
 package week7.university;
 
+import week7.dao.universityDao.DAO;
+import week7.dao.universityDao.IDAO;
+import week7.dao.universityDao.StudentDAO;
+import week7.dao.universityDao.SubjectDAO;
+import week7.model.Student;
+
 import java.io.IOException;
+import java.net.Socket;
 import java.sql.*;
 
 /**
@@ -16,6 +23,7 @@ public class Main {
         String dbServer = "jdbc:postgresql://localhost:5432/";
         String user = "postgres";
         String password = "root";
+
 
         DBConnection dbConnection = new DBConnection(dbServer, dbName ,user, password);
         java.sql.Connection connection = null;
@@ -38,6 +46,19 @@ public class Main {
             }
 
         }
+        DAO studentDao = new StudentDAO(connection);
+        //Get students set
+        ResultSet allStudents = studentDao.getAll();
+        //Print all students
+
+        studentDao.update(10006,new Student(10006, "Vasiliy Pitersliy",1002));
+
+        studentDao.printAll();
+
+        studentDao.remove(10001);
+        studentDao.printAll();
+
+
 
     }
 }
