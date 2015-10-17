@@ -1,11 +1,9 @@
 package week7.university;
 
-import week7.dao.DAO;
-import week7.dao.StudentDAO;
+import week7.dao.*;
 import week7.model.Student;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.sql.*;
 
 /**
@@ -44,17 +42,32 @@ public class Main {
             }
 
         }
-        DAO studentDao = new StudentDAO(connection);
+        ModelDAO studentModelDao = new StudentDAO(connection);
+        IUniversityDAO universityDao = new UniversityDAO(connection);
+
         //Get students set
-        ResultSet allStudents = studentDao.getAll();
+        ResultSet allStudents = studentModelDao.getAll();
+
         //Print all students
+        studentModelDao.printAll();
 
-        studentDao.update(10006,new Student(10006, "Vasiliy Pitersliy",1002));
+        //Student info update
+        studentModelDao.update(10006, new Student(10006, "Vasiliy Pitersliy",1002));
 
-        studentDao.printAll();
+        //Student remove
+        studentModelDao.remove(10001);
 
-        studentDao.remove(10001);
-        studentDao.printAll();
+        ResultSet studentListFromGroup = universityDao.getStudentListFromGroup(1002);
+        studentModelDao.printAllRS(studentListFromGroup);
+
+        // -узнать какие группы изучают математику
+
+        String math = "Math";
+        ResultSet mathSet = universityDao.getGroupListBySubject(math);
+        while (mathSet.next()){
+            System.out.println(mathSet.getString(1));
+        }
+
 
 
 

@@ -10,8 +10,7 @@ import java.sql.Statement;
  * ..\o/\ /---~\\ ~}}
  * ...._//    _// ~}
  */
-public abstract class DAO implements IDAO{
-
+public abstract class DAO {
     protected Connection connection;
     protected Statement statement;
 
@@ -19,6 +18,4 @@ public abstract class DAO implements IDAO{
         this.connection = connection;
         statement=connection.createStatement();
     }
-
-
 }

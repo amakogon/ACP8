@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * ..\o/\ /---~\\ ~}}
  * ...._//    _// ~}
  */
-public class SubjectDAO extends DAO implements IDAO {
+public class SubjectDAO extends ModelDAO implements IModelDAO {
 
 
     public SubjectDAO(Connection connection) throws SQLException {
@@ -45,6 +45,11 @@ public class SubjectDAO extends DAO implements IDAO {
 
     @Override
     public void printAll() {
+
+    }
+
+    @Override
+    public void printAllRS(ResultSet rs) throws SQLException {
 
     }
 }

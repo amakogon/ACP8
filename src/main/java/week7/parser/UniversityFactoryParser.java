@@ -1,9 +1,6 @@
 package week7.parser;
 
-import week7.model.Group;
-import week7.model.Student;
-import week7.model.Subject;
-import week7.model.Teacher;
+import week7.model.*;
 
 /**
  * .|\_/|,,_____,~~`
@@ -49,6 +46,13 @@ public class UniversityFactoryParser {
         int experience = Integer.parseInt(teacherString[2]);
         int subjectId = Integer.parseInt(teacherString[3]);
         return new Teacher(id,name,experience,subjectId);
+    }
+
+    public Study createStudy() {
+        String[] studyString = input.split("\t");
+        int group_id = Integer.parseInt(studyString[0]);
+        int subject_id = Integer.parseInt(studyString[1]);
+        return new Study(group_id,subject_id);
     }
 
 

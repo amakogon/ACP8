@@ -10,7 +10,7 @@ import java.sql.*;
  * ..\o/\ /---~\\ ~}}
  * ...._//    _// ~}
  */
-public class StudentDAO extends DAO implements IDAO {
+public class StudentDAO extends ModelDAO implements IModelDAO {
 
 
     public StudentDAO(Connection connection) throws SQLException {
@@ -65,7 +65,14 @@ public class StudentDAO extends DAO implements IDAO {
     public void printAll() throws SQLException {
         ResultSet rs = new StudentDAO(connection).getAll();
         while (rs.next()){
-            System.out.println(rs.getString("student_name"));
+            System.out.println(rs.getInt("student_id")+"\t"+rs.getString("student_name")+ "\t" + rs.getInt("group_id"));
+        }
+    }
+
+    @Override
+    public void printAllRS(ResultSet rs) throws SQLException {
+        while (rs.next()){
+            System.out.println(rs.getInt("student_id")+"\t"+rs.getString("student_name")+ "\t" + rs.getInt("group_id"));
         }
     }
 }

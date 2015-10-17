@@ -103,15 +103,17 @@ public class UniversityDbFiller {
         } catch (org.postgresql.util.PSQLException e) {
             System.out.println("TABLE STUDY is already exist!");
         }
+
     }
 
     public void fillTables() throws SQLException, IOException {
 
 
-        DAO groupDAO   = new GroupDAO(connection);
-        DAO studentDAO = new StudentDAO(connection);
-        DAO subjectDAO = new SubjectDAO(connection);
-        DAO teacherDAO = new TeacherDAO(connection);
+        ModelDAO groupModelDAO = new GroupDAO(connection);
+        ModelDAO studentModelDAO = new StudentDAO(connection);
+        ModelDAO subjectModelDAO = new SubjectDAO(connection);
+        ModelDAO teacherModelDAO = new TeacherDAO(connection);
+        ModelDAO studyModelDao = new StudyDAO(connection);
 
 
         BufferedReader bufferedReader = null;
@@ -120,7 +122,7 @@ public class UniversityDbFiller {
         bufferedReader = new BufferedReader(new InputStreamReader(groupsURL.openStream()));
         while (bufferedReader.ready()) {
             UniversityFactoryParser factory = new UniversityFactoryParser(bufferedReader.readLine());
-            groupDAO.add(factory.createGroup());
+            groupModelDAO.add(factory.createGroup());
         }
         bufferedReader.close();
 
@@ -129,7 +131,7 @@ public class UniversityDbFiller {
         bufferedReader = new BufferedReader(new InputStreamReader(studentsURL.openStream()));
         while (bufferedReader.ready()) {
             UniversityFactoryParser factory = new UniversityFactoryParser(bufferedReader.readLine());
-            studentDAO.add(factory.createStudent());
+            studentModelDAO.add(factory.createStudent());
         }
         bufferedReader.close();
 
@@ -139,7 +141,7 @@ public class UniversityDbFiller {
         bufferedReader = new BufferedReader(new InputStreamReader(subjectsURL.openStream()));
         while (bufferedReader.ready()) {
             UniversityFactoryParser factory = new UniversityFactoryParser(bufferedReader.readLine());
-            subjectDAO.add(factory.createSubject());
+            subjectModelDAO.add(factory.createSubject());
         }
         bufferedReader.close();
 
@@ -148,7 +150,16 @@ public class UniversityDbFiller {
         bufferedReader = new BufferedReader(new InputStreamReader(teachersURL.openStream()));
         while (bufferedReader.ready()) {
             UniversityFactoryParser factory = new UniversityFactoryParser(bufferedReader.readLine());
-            teacherDAO.add(factory.createTeacher());
+            teacherModelDAO.add(factory.createTeacher());
+
+        }
+
+        //Study
+        URL studyURL = ClassLoader.getSystemResource("university/study.unv");
+        bufferedReader = new BufferedReader(new InputStreamReader(studyURL.openStream()));
+        while (bufferedReader.ready()) {
+            UniversityFactoryParser factory = new UniversityFactoryParser(bufferedReader.readLine());
+            studyModelDao.add(factory.createStudy());
 
         }
         bufferedReader.close();

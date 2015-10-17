@@ -1,7 +1,6 @@
 package week7.dao;
 
-
-import week7.model.Teacher;
+import week7.model.Study;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,18 +12,18 @@ import java.sql.SQLException;
  * ..\o/\ /---~\\ ~}}
  * ...._//    _// ~}
  */
-public class TeacherDAO extends ModelDAO implements IModelDAO {
+public class StudyDAO extends ModelDAO implements IModelDAO {
 
 
-    public TeacherDAO(Connection connection) throws SQLException {
+    public StudyDAO(Connection connection) throws SQLException {
         super(connection);
     }
 
 
     @Override
     public void add(Object o) throws SQLException {
-        if (o instanceof Teacher) {
-            statement.executeUpdate("INSERT INTO teacher(teacher_id,teacher_name,teacher_experience,teacher_subject) VALUES" + ((Teacher) o).toQuery());
+        if (o instanceof Study) {
+            statement.executeUpdate("INSERT INTO study(group_id,subject_id) VALUES" + ((Study) o).toQuery());
         }
     }
 
@@ -53,4 +52,6 @@ public class TeacherDAO extends ModelDAO implements IModelDAO {
     public void printAllRS(ResultSet rs) throws SQLException {
 
     }
+
+
 }
