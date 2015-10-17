@@ -1,6 +1,6 @@
 package week7.university;
 
-import week7.dao.universityDao.*;
+import week7.dao.*;
 import week7.parser.UniversityFactoryParser;
 
 import java.io.BufferedReader;

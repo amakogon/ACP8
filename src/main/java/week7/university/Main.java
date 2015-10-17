@@ -1,9 +1,7 @@
 package week7.university;
 
-import week7.dao.universityDao.DAO;
-import week7.dao.universityDao.IDAO;
-import week7.dao.universityDao.StudentDAO;
-import week7.dao.universityDao.SubjectDAO;
+import week7.dao.DAO;
+import week7.dao.StudentDAO;
 import week7.model.Student;
 
 import java.io.IOException;

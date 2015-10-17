@@ -1,4 +1,4 @@
-package week7.dao.universityDao;
+package week7.dao;
 
 import week7.model.Student;
 

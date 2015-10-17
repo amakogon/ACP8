@@ -1,4 +1,4 @@
-package week7.dao.universityDao;
+package week7.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
