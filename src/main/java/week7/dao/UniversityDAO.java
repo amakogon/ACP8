@@ -38,5 +38,34 @@ public class UniversityDAO extends DAO implements IUniversityDAO {
         return resultSet;
     }
 
+    @Override
+    public void printGroupListBySubject(ResultSet resultSet) throws SQLException {
+        while (resultSet.next()){
+            System.out.println(resultSet.getString(1));
+        }
+    }
+
+
+    ///  -узнать какие предметы узучают все группы (если хотя бы одна не изучает, то предмет не входит в выборку)
+
+    @Override
+    public ResultSet getNotExclusiveSubjects() throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT subj.subject_name FROM (study st JOIN subject subj ON st.subject_id=subj.subject_id)\n" +
+                "GROUP BY subj.subject_id\n" +
+                "HAVING count(*)=(SELECT count(DISTINCT group_id) FROM study)");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return resultSet;
+    }
+
+    @Override
+    public void printNotExclusiveSubjects(ResultSet resultSet) throws SQLException {
+        while (resultSet.next()){
+            System.out.println(resultSet.getString(1));
+        }
+    }
+
+   /* "SELECT (subject_name) FROM subject\n"+
+            "WHERE (subject_name='Biology' OR subject_name='Geography')"*/
+
 
 }

@@ -3,9 +3,7 @@ package week7.dao;
 
 import week7.model.Teacher;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * .|\_/|,,_____,~~`
@@ -53,4 +51,48 @@ public class TeacherDAO extends ModelDAO implements IModelDAO {
     public void printAllRS(ResultSet rs) throws SQLException {
 
     }
+
+    public ResultSet getTeacherWinthMinExperience() throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM teacher GROUP BY teacher_id\n" +
+                "HAVING teacher_experience=(SELECT MIN (teacher_experience) FROM teacher)");
+        return resultSet;
+    }
+
+    public void printTeacherWithMinExperience(ResultSet resultSet) throws SQLException {
+        while (resultSet.next()){
+            System.out.println(resultSet.getString("teacher_name"));
+        }
+    }
+
+    public ResultSet getTeacherWinthMaxExperience() throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM teacher GROUP BY teacher_id\n" +
+                "HAVING teacher_experience=(SELECT MAX (teacher_experience) FROM teacher)");
+        return resultSet;
+    }
+
+    public void printTeacherWithMaxExperience(ResultSet resultSet) throws SQLException {
+        while (resultSet.next()){
+            System.out.println(resultSet.getString("teacher_name"));
+        }
+    }
+
+    public ResultSet getTeacherWinthExperienceMoreThen(int experience) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM teacher GROUP BY teacher_id\n" +
+                "HAVING teacher_experience>?");
+        preparedStatement.setInt(1,experience);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return resultSet;
+    }
+
+    public void printTeacherWithExperienceMoreThen(ResultSet resultSet) throws SQLException {
+        while (resultSet.next()){
+            System.out.println(resultSet.getString("teacher_name"));
+        }
+    }
+
+
+
+
 }

@@ -49,7 +49,9 @@ public class Main {
         ResultSet allStudents = studentModelDao.getAll();
 
         //Print all students
+        System.out.println("\n\rPrint all students\n\r");
         studentModelDao.printAll();
+
 
         //Student info update
         studentModelDao.update(10006, new Student(10006, "Vasiliy Pitersliy",1002));
@@ -62,15 +64,33 @@ public class Main {
 
         // -узнать какие группы изучают математику
 
+        System.out.println("\n\rУзнать какие группы изучают математик\n\r");
         String math = "Math";
         ResultSet mathSet = universityDao.getGroupListBySubject(math);
-        while (mathSet.next()){
-            System.out.println(mathSet.getString(1));
-        }
+        universityDao.printGroupListBySubject(mathSet);
 
+        //-узнать какие предметы узучают все группы (если хотя бы одна не изучает, то предмет не входит в выборку)
 
+        System.out.println("\n\rУзнать какие предметы узучают все группы (если хотя бы одна не изучает, то предмет не входит в выборку\n\r");
+        ResultSet noExclusiveSubjects = universityDao.getNotExclusiveSubjects();
+        universityDao.printNotExclusiveSubjects(noExclusiveSubjects);
 
+        // -какие преподаватель имеют наименьший и наибольший опыт?
 
+        TeacherDAO teacherDAO = new TeacherDAO(connection);
+        ResultSet teachersWithMinExperience = teacherDAO.getTeacherWinthMinExperience();
+        ResultSet teachersWithMaxExperience = teacherDAO.getTeacherWinthMaxExperience();
+
+        System.out.println("\n\rMin experience:\n\r");
+        teacherDAO.printTeacherWithMinExperience(teachersWithMinExperience);
+        System.out.println("\n\rMax experience:\n\r");
+        teacherDAO.printTeacherWithMinExperience(teachersWithMaxExperience);
+
+        //  -какие преподы преподают больше 3-х лет
+
+        System.out.println("\n\rПреподы преподают больше 3-х лет\n\r");
+        ResultSet teachersWithExperienceMoreThenThreeYears = teacherDAO.getTeacherWinthExperienceMoreThen(3);
+        teacherDAO.printTeacherWithExperienceMoreThen(teachersWithExperienceMoreThenThreeYears);
     }
 }
 
