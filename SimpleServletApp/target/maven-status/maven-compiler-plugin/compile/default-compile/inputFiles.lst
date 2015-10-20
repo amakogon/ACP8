@@ -1,1 +1,6 @@
+/home/serhii/dev/IdeaProjects/ACP8/SimpleServletApp/src/main/java/ua/artcode/servlet/GetUserServlet.java
+/home/serhii/dev/IdeaProjects/ACP8/SimpleServletApp/src/main/java/ua/artcode/model/AppDB.java
+/home/serhii/dev/IdeaProjects/ACP8/SimpleServletApp/src/main/java/ua/artcode/model/User.java
+/home/serhii/dev/IdeaProjects/ACP8/SimpleServletApp/src/main/java/ua/artcode/servlet/AddUserServlet.java
 /home/serhii/dev/IdeaProjects/ACP8/SimpleServletApp/src/main/java/ua/artcode/servlet/HelloServlet.java
+/home/serhii/dev/IdeaProjects/ACP8/SimpleServletApp/src/main/java/ua/artcode/listener/InitAppDataListener.java

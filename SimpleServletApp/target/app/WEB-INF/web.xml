@@ -6,6 +6,15 @@
   <display-name>Archetype Created Web Application</display-name>
 
 
+    <filter>
+        <filter-name>RequestTrace</filter-name>
+        <filter-class>ua.artcode.filter.TraceRequestFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>RequestTrace</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>HelloServlet</servlet-name>
         <servlet-class>ua.artcode.servlet.HelloServlet</servlet-class>
@@ -14,6 +23,16 @@
     <servlet-mapping>
         <servlet-name>HelloServlet</servlet-name>
         <url-pattern>/hello</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>ua.artcode.servlet.LoginServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/test</url-pattern>
     </servlet-mapping>
 
 </web-app>

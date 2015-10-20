@@ -1,1 +1,6 @@
+ua/artcode/servlet/GetUserServlet.class
+ua/artcode/listener/InitAppDataListener.class
+ua/artcode/servlet/AddUserServlet.class
+ua/artcode/model/AppDB.class
 ua/artcode/servlet/HelloServlet.class
+ua/artcode/model/User.class
