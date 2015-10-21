@@ -1,0 +1,39 @@
+1.  Servlet API
+    - protocols TCP/IP, HTTP (Request, Response) -> Http Headers and Methods
+    - maven dependencies servlets and jstl
+    - webapp folder structure
+    - web.xml - config web app file
+    - config via XML and Annotation
+    - Servlet API Hierarchy
+        Servlet <- GenericServlet <- HttpServlet <- YourServlet
+
+        Servlet lifecycle (init,service,destroy)
+
+        Tomcat - servlet container. It knows how to create, call, and destroy servlets
+
+    Memory places in tomcat - ServletContext->SessionContext->RequestContext->PageContext
+
+    Filter and Listeners
+
+    Java + html = Jsp (dynamic page)
+
+    Scriplets->JSTL
+
+    Cookies -> HttpSession
+
+    Tomcat folder structure
+
+    redirect and forward
+
+    future: see SpringMVC
+
+2. Write pages(JSP+SERVLETS) for previous task(student db)
+
+video
+https://www.youtube.com/playlist?list=PLoij6udfBnchmBR9V7tdSCsOdtcpPkoxo
+https://www.youtube.com/playlist?list=PLoij6udfBncgYO5FS9U-DcBQlix8FF2Q8
+https://www.youtube.com/playlist?list=PLoij6udfBncjHaO5s7Ln4w4BLj5FVc49P
+https://www.youtube.com/playlist?list=PLoij6udfBncgN40Iu3mSn0SK8T-Ug0ByH
+https://www.youtube.com/playlist?list=PLoij6udfBnci-__Tz8nLU-RXrW4w7TKET
+https://www.youtube.com/playlist?list=PLoij6udfBncgXeQx1JY1-fQwKfukyeSOC
+
