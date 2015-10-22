@@ -18,9 +18,9 @@ import java.util.Map;
 //        -узнать какие группы изучают математику
 //        -узнать какие предметы узучают все группы (если хотя бы одна не изучает, то предмет не входит в выборку)
 //        -какие преподаватель имеют наименьший и наибольший опыт?
-//        -какие преподы преподают больше 3-х лет
+//        -какие преподы преподают больше 3-х лет +
 //        -получить список гуманитарных предметов
-//        -узнать средний бал студентов по физике (всех и определенной группы)
+//        -узнать средний бал студентов по физике (всех и определенной группы) +
 //        -показать группу, в которой более 3-х студентов изучают философию (и выгнать с универа)
 public class QueryBuilder {
     private Map<String, String> query = new HashMap<>();
@@ -52,6 +52,7 @@ public class QueryBuilder {
         query.put("showSubject", "Select * from subject");
         query.put("showStudentGroup", "Select * from studentgroup");
         query.put("deleteTeacher","");
+        query.put("showTeacherWhereExp","SELECT teacher_name,experience FROM TEACHER WHERE experience>?");
         query.put("showAvgRank","SELECT  avg(rank)from success sc join subject s on s.subject_id=sc.subject_id  where  s.subject_name =?");
         query.put("showWhoLearnMath","select student_name,group_id from student where group_id=?");
         query.put("updateStudentGroup","update student set group_id =? where student_id =?");
@@ -180,6 +181,20 @@ public class QueryBuilder {
         return builder.toString();
     }
 
+    public String showTeacherExp(int experience){
+        try {
+            preparedStatement = connection.prepareStatement(query.get("showTeacherWhereExp"));
+            preparedStatement.setInt(1,experience);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                builder.append(String.format("teacher name=%s,experience=%d",resultSet.getString(1),resultSet.getInt(2)));
+                builder.append("\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return builder.toString();
+    }
     public String showStudentGroup() {
         try {
             preparedStatement = connection.prepareStatement(query.get("showStudentGroup"));
