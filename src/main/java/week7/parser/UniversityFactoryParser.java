@@ -55,5 +55,13 @@ public class UniversityFactoryParser {
         return new Study(group_id,subject_id);
     }
 
+    public Rank createRank() {
+        String[] rankString = input.split("\t");
+        int student_id = Integer.parseInt(rankString[0]);
+        int subject_id = Integer.parseInt(rankString[1]);
+        int rank = Integer.parseInt(rankString[2]);
+        return new Rank(student_id,subject_id,rank);
+    }
+
 
 }

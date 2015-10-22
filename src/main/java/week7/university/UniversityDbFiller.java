@@ -104,6 +104,23 @@ public class UniversityDbFiller {
             System.out.println("TABLE STUDY is already exist!");
         }
 
+        //Creating RANKS TABLE
+        try {
+
+            statement.executeUpdate
+
+                    ("CREATE TABLE RANKS (\n" +
+                                    "student_id integer,\n" +
+                                    "subject_id integer,\n" +
+                                    "rank integer,\n" +
+                                    "CONSTRAINT student_id_fk FOREIGN KEY (student_id) REFERENCES student(student_id),\n" +
+                                    "CONSTRAINT subject_id_fk FOREIGN KEY (subject_id) REFERENCES subject(subject_id)\n" +
+                                    ")"
+                    );
+        } catch (org.postgresql.util.PSQLException e) {
+            System.out.println("TABLE RANKS is already exist!");
+        }
+
     }
 
     public void fillTables() throws SQLException, IOException {
@@ -113,6 +130,8 @@ public class UniversityDbFiller {
         ModelDAO studentModelDAO = new StudentDAO(connection);
         ModelDAO subjectModelDAO = new SubjectDAO(connection);
         ModelDAO teacherModelDAO = new TeacherDAO(connection);
+        ModelDAO rankModelDAO = new RankDAO(connection);
+
         ModelDAO studyModelDao = new StudyDAO(connection);
 
 
@@ -160,6 +179,15 @@ public class UniversityDbFiller {
         while (bufferedReader.ready()) {
             UniversityFactoryParser factory = new UniversityFactoryParser(bufferedReader.readLine());
             studyModelDao.add(factory.createStudy());
+
+        }
+
+        //Ranks
+        URL rankURL = ClassLoader.getSystemResource("university/ranks.unv");
+        bufferedReader = new BufferedReader(new InputStreamReader(rankURL.openStream()));
+        while (bufferedReader.ready()) {
+            UniversityFactoryParser factory = new UniversityFactoryParser(bufferedReader.readLine());
+            rankModelDAO.add(factory.createRank());
 
         }
         bufferedReader.close();

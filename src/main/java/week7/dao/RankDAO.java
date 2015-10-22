@@ -1,5 +1,6 @@
 package week7.dao;
 
+import week7.model.Rank;
 import week7.model.Study;
 
 import java.sql.Connection;
@@ -22,8 +23,8 @@ public class RankDAO extends ModelDAO implements IModelDAO {
 
     @Override
     public void add(Object o) throws SQLException {
-        if (o instanceof Study) {
-            statement.executeUpdate("INSERT INTO study(group_id,subject_id) VALUES" + ((Study) o).toQuery());
+        if (o instanceof Rank) {
+            statement.executeUpdate("INSERT INTO ranks(student_id,subject_id,rank) VALUES" + ((Rank) o).toQuery());
         }
     }
 

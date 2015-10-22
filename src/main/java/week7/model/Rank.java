@@ -7,20 +7,22 @@ package week7.model;
  * ...._//    _// ~}
  */
 public class Rank implements DBQueryble {
-    private int group_id;
+    private int student_id;
     private int subject_id;
+    private int rank;
 
-    public Rank(int group_id, int subject_id) {
-        this.group_id = group_id;
+    public Rank(int student_id, int subject_id, int rank) {
+        this.student_id = student_id;
         this.subject_id = subject_id;
+        this.rank = rank;
     }
 
-    public int getGroup_id() {
-        return group_id;
+    public int getStudent_id() {
+        return student_id;
     }
 
-    public void setGroup_id(int group_id) {
-        this.group_id = group_id;
+    public void setStudent_id(int student_id) {
+        this.student_id = student_id;
     }
 
     public int getSubject_id() {
@@ -31,8 +33,16 @@ public class Rank implements DBQueryble {
         this.subject_id = subject_id;
     }
 
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
     @Override
     public String toQuery() {
-        return "("+this.group_id+","+this.subject_id+")";
+        return "("+this.student_id+","+this.subject_id+","+this.rank+")";
     }
 }
