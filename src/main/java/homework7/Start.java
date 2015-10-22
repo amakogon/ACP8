@@ -18,6 +18,6 @@ public class Start {
         //System.out.println(queryBuilder.addGroup(4,"IO-84","best"));
         //System.out.println(queryBuilder.addSubject(203,"Sport","good"));
         //System.out.println(queryBuilder.addTeacher(104,"Selik",203,12));
-        System.out.println(queryBuilder.showStudentGroup());
+        System.out.println(queryBuilder.showAvgRank("Fiziks"));
     }
 }

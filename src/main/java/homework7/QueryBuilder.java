@@ -52,6 +52,7 @@ public class QueryBuilder {
         query.put("showSubject", "Select * from subject");
         query.put("showStudentGroup", "Select * from studentgroup");
         query.put("deleteTeacher","");
+        query.put("showAvgRank","SELECT  avg(rank)from success sc join subject s on s.subject_id=sc.subject_id  where  s.subject_name =?");
         query.put("showWhoLearnMath","select student_name,group_id from student where group_id=?");
         query.put("updateStudentGroup","update student set group_id =? where student_id =?");
         query.put("showStudentByGroup", "Select student_name,group_id from student where group_id=?");
@@ -156,6 +157,21 @@ public class QueryBuilder {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 builder.append(String.format("id=%d, student name=%s, group_id=%s", resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
+                builder.append("\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return builder.toString();
+    }
+
+    public String showAvgRank(String subject){
+        try {
+            preparedStatement = connection.prepareStatement(query.get("showAvgRank"));
+            preparedStatement.setString(1,subject);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                builder.append(String.format( subject+" avg rank=%.1f",resultSet.getDouble(1)));
                 builder.append("\n");
             }
         } catch (SQLException e) {
