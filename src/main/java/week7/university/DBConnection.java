@@ -18,6 +18,46 @@ public class DBConnection {
     private String password;
     private Driver jdbcdriver = new org.postgresql.Driver();
 
+    public String getDbName() {
+        return dbName;
+    }
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
+    }
+
+    public String getDbServer() {
+        return dbServer;
+    }
+
+    public void setDbServer(String dbServer) {
+        this.dbServer = dbServer;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Driver getJdbcdriver() {
+        return jdbcdriver;
+    }
+
+    public void setJdbcdriver(Driver jdbcdriver) {
+        this.jdbcdriver = jdbcdriver;
+    }
+
     public DBConnection(String dbServer, String user, String password) {
         this.dbServer = dbServer;
         this.user = user;

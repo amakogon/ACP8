@@ -1,12 +1,12 @@
 package week7.university;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import week7.dao.*;
 import week7.model.Student;
 
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * .|\_/|,,_____,~~`
@@ -17,10 +17,16 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args) throws SQLException, IOException {
 
-        String dbName = "university";
-        String dbServer = "jdbc:postgresql://localhost:5432/";
-        String user = "postgres";
-        String password = "root";
+     ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("universityConfig.xml");
+
+
+
+        DBPropertyes dbPropertyes = (DBPropertyes) applicationContext.getBean("dbProperties");
+
+        String dbName = dbPropertyes.getDbName();
+        String dbServer = dbPropertyes.getDbServer();
+        String user = dbPropertyes.getUser();
+        String password = dbPropertyes.getPassword();
 
 
         DBConnection dbConnection = new DBConnection(dbServer, dbName, user, password);
