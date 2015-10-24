@@ -1,4 +1,4 @@
-package homework7;
+package homework7.univerDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,13 +22,13 @@ import java.util.Map;
 //        -получить список гуманитарных предметов ?
 //        -узнать средний бал студентов по физике (всех и определенной группы) +
 //        -показать группу, в которой более 3-х студентов изучают философию (и выгнать с универа)
-public class QueryBuilder {
+public class ImplUniverDAO implements UniverDAO {
     private Map<String, String> query = new HashMap<>();
     private StringBuilder builder = new StringBuilder();
     private PreparedStatement preparedStatement;
     private Connection connection;
 
-    public QueryBuilder() {
+    public ImplUniverDAO() {
         addAllQuery();
         createConnection();
     }

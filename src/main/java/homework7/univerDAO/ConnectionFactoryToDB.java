@@ -1,4 +1,4 @@
-package homework7;
+package homework7.univerDAO;
 
 import org.postgresql.ds.PGSimpleDataSource;
 

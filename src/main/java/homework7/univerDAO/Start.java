@@ -1,11 +1,11 @@
-package homework7;
+package homework7.univerDAO;
 
 /**
  * Created by Razer on 11.10.15.
  */
 public class Start {
     public static void main(String[] args) {
-        QueryBuilder queryBuilder = new QueryBuilder();
+        ImplUniverDAO queryBuilder = new ImplUniverDAO();
         //System.out.println(queryBuilder.showStudentByGroup(83));
 //        System.out.println(queryBuilder.addStudent(1,"Nika",83));
 //        System.out.println(queryBuilder.addStudent(2,"Vika",82));
