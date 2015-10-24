@@ -5,7 +5,7 @@ package homework7.univerDAO;
  */
 public class Start {
     public static void main(String[] args) {
-        ImplUniverDAO queryBuilder = new ImplUniverDAO();
+        UniverDAO queryBuilder = new ImplUniverDAO();
         //System.out.println(queryBuilder.showStudentByGroup(83));
 //        System.out.println(queryBuilder.addStudent(1,"Nika",83));
 //        System.out.println(queryBuilder.addStudent(2,"Vika",82));

@@ -61,12 +61,12 @@ public class ImplUniverDAO implements UniverDAO {
         query.put("showGroupWhoLearnMath", "select group_id,subject_name from group_learning gl join subject s on s.subject_id = gl.subject_id  where s.subject_name = 'Math';");
     }
 
-    public String addStudent(int student_id, String student_name, int group_id) {
+    public String addStudent(int studentId, String studentName, int groupId) {
         try {
             preparedStatement = connection.prepareStatement(query.get("addStudent"));
-            preparedStatement.setInt(1, student_id);
-            preparedStatement.setString(2, student_name);
-            preparedStatement.setInt(3, group_id);
+            preparedStatement.setInt(1, studentId);
+            preparedStatement.setString(2, studentName);
+            preparedStatement.setInt(3, groupId);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,11 +74,11 @@ public class ImplUniverDAO implements UniverDAO {
         return "Query returned successfully";
     }
 
-    public String addGroup(int group_id, String group_name, String description) {
+    public String addGroup(int groupId, String groupName, String description) {
         try {
             preparedStatement = connection.prepareStatement(query.get("addGroup"));
-            preparedStatement.setInt(1, group_id);
-            preparedStatement.setString(2, group_name);
+            preparedStatement.setInt(1, groupId);
+            preparedStatement.setString(2, groupName);
             preparedStatement.setString(3, description);
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -87,11 +87,11 @@ public class ImplUniverDAO implements UniverDAO {
         return "Query returned successfully";
     }
 
-    public String addSubject(int subject_id, String subject_name, String description) {
+    public String addSubject(int subjectId, String subjectName, String description) {
         try {
             preparedStatement = connection.prepareStatement(query.get("addSubject"));
-            preparedStatement.setInt(1, subject_id);
-            preparedStatement.setString(2, subject_name);
+            preparedStatement.setInt(1, subjectId);
+            preparedStatement.setString(2, subjectName);
             preparedStatement.setString(3, description);
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -100,12 +100,12 @@ public class ImplUniverDAO implements UniverDAO {
         return "Query returned successfully";
     }
 
-    public String addTeacher(int teacher_id, String teacher_name, int subject_id, int experience) {
+    public String addTeacher(int teacherId, String teacherName, int subjectId, int experience) {
         try {
             preparedStatement = connection.prepareStatement(query.get("addTeacher"));
-            preparedStatement.setInt(1, teacher_id);
-            preparedStatement.setString(2, teacher_name);
-            preparedStatement.setInt(3, subject_id);
+            preparedStatement.setInt(1, teacherId);
+            preparedStatement.setString(2, teacherName);
+            preparedStatement.setInt(3, subjectId);
             preparedStatement.setInt(4, experience);
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -114,11 +114,11 @@ public class ImplUniverDAO implements UniverDAO {
         return "Query returned successfully";
     }
 
-    public String addGroupLearning(int group_id, int subject_id) {
+    public String addGroupLearning(int groupId, int subjectId) {
         try {
             preparedStatement = connection.prepareStatement(query.get("addGroupLearning"));
-            preparedStatement.setInt(1, group_id);
-            preparedStatement.setInt(2, subject_id);
+            preparedStatement.setInt(1, groupId);
+            preparedStatement.setInt(2, subjectId);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -126,11 +126,11 @@ public class ImplUniverDAO implements UniverDAO {
         return "Query returned successfully";
     }
 
-    public String updateStudentGroup(int newGroup_id, int student_id) {
+    public String updateStudentGroup(int newGroupId, int studentId) {
         try {
             preparedStatement = connection.prepareStatement(query.get("updateStudentGroup"));
-            preparedStatement.setInt(1, newGroup_id);
-            preparedStatement.setInt(2, student_id);
+            preparedStatement.setInt(1, newGroupId);
+            preparedStatement.setInt(2, studentId);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -212,10 +212,10 @@ public class ImplUniverDAO implements UniverDAO {
         return builder.toString();
     }
 
-    public String showGroupWhoLearnMath(int group_id) {
+    public String showGroupWhoLearnMath(int groupId) {
         try {
             preparedStatement = connection.prepareStatement(query.get("showWhoLearnMath"));
-            preparedStatement.setInt(1, group_id);
+            preparedStatement.setInt(1, groupId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 builder.append(String.format("student name=%s, group_id=%d", resultSet.getString(1), resultSet.getInt(2)));

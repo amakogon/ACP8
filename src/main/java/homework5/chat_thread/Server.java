@@ -1,9 +1,11 @@
 package homework5.chat_thread;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Razer on 05.10.15.
@@ -13,13 +15,27 @@ public class Server {
         this.port = port;
     }
     private int port;
-    private Socket socket;
-    private HashMap<String,Client> clients;
+    private ServerSocket serverSocket;
+    private Map<String, ServerSocket> clients;
 
     public void runServer() {
-        if (openConnection()) {
-
+        clients = new HashMap<>();
+        String name=null;
+        try {
+            serverSocket = new ServerSocket(5000);
+            while (true) {
+                Socket clientSock = serverSocket.accept();
+                PrintWriter writer = new PrintWriter(clientSock.getOutputStream());
+                writer.println("Connected to server!");
+                writer.println("Enter your nickname:");
+                clients.put(name,clientSock);
+                Thread clientThread = new Thread(new ReadTask(clientSock));
+                clientThread.start();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
     }
 
     private boolean openConnection() {
