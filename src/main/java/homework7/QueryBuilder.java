@@ -13,13 +13,13 @@ import java.util.Map;
 ////Используя jdbc необходимо:
 //-получить список всех студентовб группб предметов и преподов +
 //        -добавить сутдента, группу, предмет, препода +
-//        -обновить информацию о сущностях бд (например студент изменил группу или препода уволили) +-!!
+//        -обновить информацию о сущностях бд (например студент изменил группу или препода уволили) +
 //        -получить список студентов определенной группы  +
 //        -узнать какие группы изучают математику +
 //        -узнать какие предметы узучают все группы (если хотя бы одна не изучает, то предмет не входит в выборку)
 //        -какие преподаватель имеют наименьший и наибольший опыт?
 //        -какие преподы преподают больше 3-х лет +
-//        -получить список гуманитарных предметов
+//        -получить список гуманитарных предметов ?
 //        -узнать средний бал студентов по физике (всех и определенной группы) +
 //        -показать группу, в которой более 3-х студентов изучают философию (и выгнать с универа)
 public class QueryBuilder {
@@ -47,6 +47,7 @@ public class QueryBuilder {
         query.put("addSubject", "Insert into Subject(subject_id,subject_name,description) Values(?,?,?) ");
         query.put("addTeacher", "Insert into Teacher(teacher_id,teacher_name,subject_id,experience) Values(?,?,?,?) ");
         query.put("addGroupLearning", "Insert into group_learning(group_id,subject_id) values (?,?)");
+        query.put("updateStudentGroup","UPDATE student SET group_id=? WHERE student_id=? ");
         query.put("showStudent", "Select * from student");
         query.put("showTeacher", "Select * from teacher");
         query.put("showSubject", "Select * from subject");
@@ -55,7 +56,6 @@ public class QueryBuilder {
         query.put("showTeacherWhereExp", "SELECT teacher_name,experience FROM TEACHER WHERE experience>?");
         query.put("showAvgRank", "SELECT  avg(rank)from success sc join subject s on s.subject_id=sc.subject_id  where  s.subject_name =?");
         query.put("showWhoLearnMath", "select student_name,group_id from student where group_id=?");
-        query.put("updateStudentGroup", "update student set group_id =? where student_id =?");
         query.put("showStudentByGroup", "Select student_name,group_id from student where group_id=?");
         query.put("select", "");
         query.put("showGroupWhoLearnMath", "select group_id,subject_name from group_learning gl join subject s on s.subject_id = gl.subject_id  where s.subject_name = 'Math';");
