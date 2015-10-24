@@ -11,8 +11,11 @@ public class Main {
     Person person = context.getBean("frenk", Person.class);
     System.out.println(person);
 
-
-    Performer performer = context.getBean("Jim", Singer.class);
+    Performer performer = context.getBean("Carl", Singer.class);
     performer.perform();
+
+    Band band = context.getBean(Band.class);
+    System.out.println("~~~~~~~~~~~~~~");
+    band.startBand();
   }
 }
