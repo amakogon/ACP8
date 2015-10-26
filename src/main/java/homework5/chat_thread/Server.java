@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -22,9 +21,11 @@ public class Server {
     private ServerSocket serverSocket;
     private Map<String, Socket> clients;
 
+
     public void runServer() {
-        clients = new HashMap<>();
         String name;
+        System.out.println("Server started!");
+        clients = new HashMap<>();
         try {
             serverSocket = new ServerSocket(port);
             while (true) {
@@ -35,8 +36,9 @@ public class Server {
                 writer.println("Enter your nickname:");
                 writer.flush();
                 name = reader.readLine();
+                System.out.println(name + " connected to the server");
                 clients.put(name, clientSock);
-                Thread clientThread = new Thread();
+                Thread clientThread = new Thread(new ClientThread(name));
                 clientThread.start();
             }
         } catch (IOException e) {
@@ -44,12 +46,39 @@ public class Server {
         }
     }
 
-    private void sendAll(String message) {
-        Iterator iter = clients.entrySet().iterator();
-        while (iter.hasNext()) {
-            PrintWriter writer = (PrintWriter) iter.next();
-            writer.println(message);
-            writer.flush();
+    private void sendAll(String message, String name) {
+        for (Socket s : clients.values()) {
+            try {
+                PrintWriter printWriter = new PrintWriter(s.getOutputStream());
+                printWriter.write(name + ":" + message + "\n\r");
+                printWriter.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class ClientThread implements Runnable {
+        BufferedReader reader;
+        String name;
+
+        public ClientThread(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public void run() {
+            try {
+                String message;
+                reader = new BufferedReader(new InputStreamReader(clients.get(name).getInputStream()));
+                while (true) {
+                    if ((message = reader.readLine()) != null) {
+                        sendAll(message, name);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
