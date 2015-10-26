@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
   <bean class="week8.di.Person" name="bob">
     <!--<property name="name" value="Bob"/>-->
@@ -21,12 +22,85 @@ oh, I believe in yesterday
 Read more: Beatles - Yesterday Lyrics | MetroLyrics "/>
   </bean>
 
-  <bean class="week8.di.Singer" name="Jim">
+  <bean class="week8.di.Singer" id="Jim">
     <property name="song" ref="yesterday"/>
   </bean>
 
   <bean class="week8.di.Singer" name="Carl">
-    <property name="song" ref=""/>
+    <property name="song" value="#{Jim.song}"/>
   </bean>
 
+  <bean class="week8.di.Band" name="Two boys one love">
+    <property name="performerList">
+      <list>
+        <ref bean="Jim"/>
+        <ref bean="Carl"/>
+        <ref bean="Carl"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean class="week8.di.Box$Ball" name="whiteBall">
+    <property name="color" value="white"/>
+  </bean>
+  <bean class="week8.di.Box$Ball" name="blackBall">
+    <property name="color" value="black"/>
+  </bean>
+  <bean class="week8.di.Box$Ball" name="redBall">
+    <property name="color" value="red"/>
+  </bean>
+
+  <bean class="week8.di.Box" name="box">
+    <property name="balls">
+      <set>
+        <ref bean="blackBall"/>
+        <ref bean="redBall"/>
+        <ref bean="whiteBall"/>
+        <ref bean="whiteBall"/>
+      </set>
+    </property>
+  </bean>
+
+  <bean class="week8.day2.Circle" name="circle">
+    <property name="radius" value="#{random.number}"/>
+    <!--<property name="center" ref="pointA"/>-->
+  </bean>
+
+  <bean class="week8.day2.Point" name="pointA">
+    <property name="x" value="4"/>
+    <property name="y" value="2"/>
+  </bean>
+
+  <bean class="week8.day2.Point" name="pointB">
+    <property name="x" value="4"/>
+    <property name="y" value="2"/>
+  </bean>
+
+  <bean class="week8.day2.Random" name="random"></bean>
+
+  <bean class="week8.day2.company.Company" name="company">
+    <property name="address" value="г.Киев ул.T.Шевченка 3А"/>
+    <property name="staff">
+      <list>
+        <ref bean="Koly"/>
+        <ref bean="Vasy"/>
+        <ref bean="Ira"/>
+      </list>
+    </property>
+
+  </bean>
+
+  <bean class="week8.day2.company.Employer" name="Vasy">
+    <property name="name" value="Vasy" />
+  </bean>
+
+  <bean class="week8.day2.company.Employer" name="Ira">
+    <property name="name" value="Ira" />
+  </bean>
+  <bean class="week8.day2.company.Employer" name="Koly">
+    <property name="name" value="Koly" />
+  </bean>
+
+  <context:annotation-config/>
+  <!--<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>-->
 </beans>
